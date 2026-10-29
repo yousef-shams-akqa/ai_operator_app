@@ -1,7 +1,17 @@
+import 'package:ai_operator_app/core/firebase/app_check_setup.dart';
+import 'package:ai_operator_app/core/navigation/app_router.dart';
 import 'package:ai_operator_app/shared/constants/app_strings.dart';
+import 'package:ai_operator_app/shared/theme/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  // ensure initialized before running the app
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await AppCheckSetup.activateAppCheck();
   runApp(const MyApp());
 }
 
@@ -11,9 +21,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: AppStrings.appName,
-      home: const SizedBox(),
+      theme: AppTheme.light,
+      routerConfig: appRouter,
     );
   }
 }

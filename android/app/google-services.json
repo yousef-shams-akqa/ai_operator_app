@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "685083332374",
+    "project_id": "ai-operator-96d7b",
+    "storage_bucket": "ai-operator-96d7b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685083332374:android:99ed789bf1e316aa664a37",
+        "android_client_info": {
+          "package_name": "com.example.ai_operator_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMLefGsOnvkOkkVEBywJBN_PnHwdemWGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

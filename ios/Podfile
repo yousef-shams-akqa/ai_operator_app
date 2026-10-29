@@ -1,8 +1,13 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '13.0'
+platform :ios, '15.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+# 12.19.3 is only partially published to CocoaPods (FirebaseAppCheck, FirebaseAuth,
+# etc. are missing), so pin all Firebase pods to 12.19.0 which has every pod.
+# Remove this once 12.19.3 is fully published, or bump it to a complete version.
+$FirebaseSDKVersion = '12.19.0'
 
 project 'Runner', {
   'Debug' => :debug,
@@ -39,5 +44,11 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+
+    # Some older pods declare 9.0-13.0 deployment targets, which the current
+    # iOS simulator SDK rejects. Keep every pod at the same minimum as Runner.
+    target.build_configurations.each do |build_configuration|
+      build_configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+    end
   end
 end
