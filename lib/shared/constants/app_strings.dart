@@ -10,6 +10,8 @@ class AppStrings {
 
   static const String settingsTitle = 'Settings';
   static const String settingsBody = 'App preferences and configuration.';
+  static const String darkModeTitle = 'Dark mode';
+  static const String darkModeSubtitle = 'Use a dark appearance across the app.';
 
   static const String goToProfile = 'Profile';
   static const String goToSettings = 'Settings';

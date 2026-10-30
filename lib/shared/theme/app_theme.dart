@@ -5,84 +5,99 @@ import 'package:ai_operator_app/shared/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppTheme {
-  static ThemeData get light {
-    final colorScheme = _lightColorScheme;
+  static ThemeData get light => _buildTheme(
+        colorScheme: _lightColorScheme,
+        scaffoldBackground: AppColors.background,
+      );
+
+  static ThemeData get dark => _buildTheme(
+        colorScheme: _darkColorScheme,
+        scaffoldBackground: AppColors.backgroundDark,
+      );
+
+  static ThemeData _buildTheme({
+    required ColorScheme colorScheme,
+    required Color scaffoldBackground,
+  }) {
+    final textTheme = _textThemeFor(colorScheme);
+    final appBarTheme = _appBarThemeFor(colorScheme);
 
     return ThemeData(
       useMaterial3: true,
       fontFamily: AppFonts.family,
+      brightness: colorScheme.brightness,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: AppColors.background,
-      textTheme: _textTheme,
-      appBarTheme: _appBarTheme,
+      scaffoldBackgroundColor: scaffoldBackground,
+      textTheme: textTheme,
+      appBarTheme: appBarTheme,
       filledButtonTheme: _filledButtonTheme(colorScheme),
       outlinedButtonTheme: _outlinedButtonTheme(colorScheme),
       textButtonTheme: _textButtonTheme(colorScheme),
-      dividerTheme: const DividerThemeData(
-        color: AppColors.divider,
+      dividerTheme: DividerThemeData(
+        color: colorScheme.outlineVariant,
         thickness: AppSizes.borderWidth,
         space: AppSizes.borderWidth,
       ),
       cardTheme: CardThemeData(
-        color: AppColors.surface,
+        color: colorScheme.surface,
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-          side: const BorderSide(
-            color: AppColors.border,
+          side: BorderSide(
+            color: colorScheme.outline,
             width: AppSizes.borderWidth,
           ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surface,
-        hintStyle: AppFonts.bodyMedium.copyWith(color: AppColors.textSecondary),
-        labelStyle: AppFonts.labelMedium,
+        fillColor: colorScheme.surface,
+        hintStyle: AppFonts.bodyMedium.copyWith(color: colorScheme.onSurfaceVariant),
+        labelStyle: AppFonts.labelMedium.copyWith(color: colorScheme.onSurfaceVariant),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.md,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-          borderSide: const BorderSide(
-            color: AppColors.border,
+          borderSide: BorderSide(
+            color: colorScheme.outline,
             width: AppSizes.borderWidth,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-          borderSide: const BorderSide(
-            color: AppColors.border,
+          borderSide: BorderSide(
+            color: colorScheme.outline,
             width: AppSizes.borderWidth,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-          borderSide: const BorderSide(
-            color: AppColors.primary,
+          borderSide: BorderSide(
+            color: colorScheme.primary,
             width: AppSizes.borderWidthThick,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-          borderSide: const BorderSide(
-            color: AppColors.error,
+          borderSide: BorderSide(
+            color: colorScheme.error,
             width: AppSizes.borderWidth,
           ),
         ),
       ),
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: AppColors.textPrimary,
-        contentTextStyle: AppFonts.bodyMedium.copyWith(color: AppColors.surface),
+        backgroundColor: colorScheme.inverseSurface,
+        contentTextStyle: AppFonts.bodyMedium.copyWith(color: colorScheme.onInverseSurface),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusSm),
         ),
       ),
-      progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: AppColors.primary,
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: colorScheme.primary,
       ),
     );
   }
@@ -120,31 +135,64 @@ abstract final class AppTheme {
     );
   }
 
-  static TextTheme get _textTheme {
-    return const TextTheme(
-      displayLarge: AppFonts.displayLarge,
-      headlineLarge: AppFonts.headlineLarge,
-      headlineMedium: AppFonts.headlineMedium,
-      titleLarge: AppFonts.titleLarge,
-      titleMedium: AppFonts.titleMedium,
-      bodyLarge: AppFonts.bodyLarge,
-      bodyMedium: AppFonts.bodyMedium,
-      bodySmall: AppFonts.bodySmall,
-      labelLarge: AppFonts.labelLarge,
-      labelMedium: AppFonts.labelMedium,
-      labelSmall: AppFonts.labelSmall,
+  static ColorScheme get _darkColorScheme {
+    return ColorScheme(
+      brightness: Brightness.dark,
+      primary: AppColors.primary,
+      onPrimary: AppColors.textPrimaryDark,
+      primaryContainer: AppColors.primaryLightDark,
+      onPrimaryContainer: AppColors.primaryLight,
+      secondary: AppColors.info,
+      onSecondary: AppColors.textPrimaryDark,
+      secondaryContainer: AppColors.infoLight.withValues(alpha: 0.2),
+      onSecondaryContainer: AppColors.infoLight,
+      tertiary: AppColors.success,
+      onTertiary: AppColors.textPrimaryDark,
+      tertiaryContainer: AppColors.successLight.withValues(alpha: 0.2),
+      onTertiaryContainer: AppColors.successLight,
+      error: AppColors.error,
+      onError: AppColors.textPrimaryDark,
+      errorContainer: AppColors.errorLight.withValues(alpha: 0.2),
+      onErrorContainer: AppColors.errorLight,
+      surface: AppColors.surfaceDark,
+      onSurface: AppColors.textPrimaryDark,
+      onSurfaceVariant: AppColors.textSecondaryDark,
+      outline: AppColors.borderDark,
+      outlineVariant: AppColors.dividerDark,
+      shadow: AppColors.shadowDark,
+      scrim: AppColors.scrimDark,
+      inverseSurface: AppColors.textPrimaryDark,
+      onInverseSurface: AppColors.surfaceDark,
+      inversePrimary: AppColors.primary,
+      surfaceContainerHighest: AppColors.surfaceVariantDark,
     );
   }
 
-  static AppBarTheme get _appBarTheme {
-    return const AppBarTheme(
+  static TextTheme _textThemeFor(ColorScheme colorScheme) {
+    return TextTheme(
+      displayLarge: AppFonts.displayLarge.copyWith(color: colorScheme.onSurface),
+      headlineLarge: AppFonts.headlineLarge.copyWith(color: colorScheme.onSurface),
+      headlineMedium: AppFonts.headlineMedium.copyWith(color: colorScheme.onSurface),
+      titleLarge: AppFonts.titleLarge.copyWith(color: colorScheme.onSurface),
+      titleMedium: AppFonts.titleMedium.copyWith(color: colorScheme.onSurface),
+      bodyLarge: AppFonts.bodyLarge.copyWith(color: colorScheme.onSurface),
+      bodyMedium: AppFonts.bodyMedium.copyWith(color: colorScheme.onSurface),
+      bodySmall: AppFonts.bodySmall.copyWith(color: colorScheme.onSurfaceVariant),
+      labelLarge: AppFonts.labelLarge.copyWith(color: colorScheme.onSurface),
+      labelMedium: AppFonts.labelMedium.copyWith(color: colorScheme.onSurfaceVariant),
+      labelSmall: AppFonts.labelSmall.copyWith(color: colorScheme.onSurfaceVariant),
+    );
+  }
+
+  static AppBarTheme _appBarThemeFor(ColorScheme colorScheme) {
+    return AppBarTheme(
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: false,
-      backgroundColor: AppColors.surface,
-      foregroundColor: AppColors.textPrimary,
+      backgroundColor: colorScheme.surface,
+      foregroundColor: colorScheme.onSurface,
       surfaceTintColor: Colors.transparent,
-      titleTextStyle: AppFonts.titleLarge,
+      titleTextStyle: AppFonts.titleLarge.copyWith(color: colorScheme.onSurface),
       toolbarHeight: AppSizes.appBarHeight,
     );
   }

@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 /// Local key-value storage backed by [SharedPreferences].
 class AppPreferences {
@@ -32,9 +33,17 @@ class AppPreferences {
   Future<bool> clearName() {
     return _preferences.remove(StorageKeys.name);
   }
+
+  bool get isDarkMode => _preferences.getBool(StorageKeys.darkMode) ?? false;
+
+
+  Future<bool> setDarkMode(bool value) {
+    return _preferences.setBool(StorageKeys.darkMode, value);
+  }
 }
 
 
 class StorageKeys {
   static const name = 'name';
+  static const darkMode = 'dark_mode';
 }
