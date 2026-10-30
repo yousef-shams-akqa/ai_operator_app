@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
-
 abstract final class AppFonts {
   static const String family = 'Roboto';
 
@@ -19,7 +17,6 @@ abstract final class AppFonts {
     fontWeight: FontWeight.w700,
     height: 1.2,
     letterSpacing: -0.5,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle headlineLarge = TextStyle(
@@ -27,7 +24,6 @@ abstract final class AppFonts {
     fontSize: sizeXxl,
     fontWeight: FontWeight.w600,
     height: 1.25,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle headlineMedium = TextStyle(
@@ -35,7 +31,6 @@ abstract final class AppFonts {
     fontSize: sizeXl,
     fontWeight: FontWeight.w600,
     height: 1.3,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle titleLarge = TextStyle(
@@ -43,7 +38,6 @@ abstract final class AppFonts {
     fontSize: sizeLg,
     fontWeight: FontWeight.w600,
     height: 1.35,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle titleMedium = TextStyle(
@@ -51,7 +45,6 @@ abstract final class AppFonts {
     fontSize: sizeMd,
     fontWeight: FontWeight.w600,
     height: 1.4,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle bodyLarge = TextStyle(
@@ -59,7 +52,6 @@ abstract final class AppFonts {
     fontSize: sizeLg,
     fontWeight: FontWeight.w400,
     height: 1.5,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle bodyMedium = TextStyle(
@@ -67,7 +59,6 @@ abstract final class AppFonts {
     fontSize: sizeMd,
     fontWeight: FontWeight.w400,
     height: 1.5,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle bodySmall = TextStyle(
@@ -75,7 +66,6 @@ abstract final class AppFonts {
     fontSize: sizeSm,
     fontWeight: FontWeight.w400,
     height: 1.45,
-    color: AppColors.textSecondary,
   );
 
   static const TextStyle labelLarge = TextStyle(
@@ -84,7 +74,6 @@ abstract final class AppFonts {
     fontWeight: FontWeight.w500,
     height: 1.4,
     letterSpacing: 0.1,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle labelMedium = TextStyle(
@@ -93,7 +82,6 @@ abstract final class AppFonts {
     fontWeight: FontWeight.w500,
     height: 1.35,
     letterSpacing: 0.15,
-    color: AppColors.textSecondary,
   );
 
   static const TextStyle labelSmall = TextStyle(
@@ -102,6 +90,5 @@ abstract final class AppFonts {
     fontWeight: FontWeight.w500,
     height: 1.3,
     letterSpacing: 0.2,
-    color: AppColors.textSecondary,
   );
 }

@@ -1,6 +1,5 @@
 import 'package:ai_operator_app/core/navigation/app_routes.dart';
 import 'package:ai_operator_app/shared/constants/app_strings.dart';
-import 'package:ai_operator_app/shared/theme/app_fonts.dart';
 import 'package:ai_operator_app/shared/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +19,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: AppSpacing.lg,
           children: [
-            Text(AppStrings.homeBody, style: AppFonts.bodyLarge),
+            Text(AppStrings.homeBody, style: Theme.of(context).textTheme.bodyLarge),
             FilledButton(
               onPressed: () => context.go(AppRoutes.profile),
               child: const Text(AppStrings.goToProfile),

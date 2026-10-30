@@ -7,6 +7,10 @@ class AppStrings {
 
   static const String profileTitle = 'Profile';
   static const String profileBody = 'Your profile and account details.';
+  static const String profileNameLabel = 'Name';
+  static const String profileNameHint = 'Enter your name';
+  static const String profileSaveName = 'Save name';
+  static const String profileSavedName = 'Saved as';
 
   static const String settingsTitle = 'Settings';
   static const String settingsBody = 'App preferences and configuration.';

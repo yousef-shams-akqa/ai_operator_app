@@ -1,49 +1,41 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/material.dart';
 
 /// Local key-value storage backed by [SharedPreferences].
 class AppPreferences {
-  AppPreferences(this._preferences);
+  static late final SharedPreferences _preferences;
 
-  final SharedPreferences _preferences;
+  static AppPreferences? instance;
 
-  static AppPreferences? _instance;
+  AppPreferences._();
 
-  /// Loads shared preferences and registers the app-wide instance.
-  static Future<AppPreferences> initialize() async {
-    _instance = AppPreferences(await SharedPreferences.getInstance());
-    return _instance!;
+  factory AppPreferences() {
+    return instance ?? AppPreferences._();
   }
 
-  /// The instance created by [initialize].
-  static AppPreferences get instance {
-    final preferences = _instance;
-    if (preferences == null) {
-      throw StateError('AppPreferences is not initialized. Call AppPreferences.initialize() in main().');
-    }
-    return preferences;
+  static Future<void> initialize() async {
+    _preferences = await SharedPreferences.getInstance();
   }
 
-  String? get name => _preferences.getString(StorageKeys.name);
+  String? get name => _preferences.getString(AppPreferencesKeys.name);
 
   Future<bool> setName(String value) {
-    return _preferences.setString(StorageKeys.name, value);
+    return _preferences.setString(AppPreferencesKeys.name, value);
   }
 
   Future<bool> clearName() {
-    return _preferences.remove(StorageKeys.name);
+    return _preferences.remove(AppPreferencesKeys.name);
   }
 
-  bool get isDarkMode => _preferences.getBool(StorageKeys.darkMode) ?? false;
+  bool get isDarkMode => _preferences.getBool(AppPreferencesKeys.darkMode) ?? false;
 
 
   Future<bool> setDarkMode(bool value) {
-    return _preferences.setBool(StorageKeys.darkMode, value);
+    return _preferences.setBool(AppPreferencesKeys.darkMode, value);
   }
 }
 
 
-class StorageKeys {
+class AppPreferencesKeys {
   static const name = 'name';
   static const darkMode = 'dark_mode';
 }
