@@ -1,6 +1,6 @@
 import 'package:ai_operator_app/core/navigation/app_routes.dart';
-import 'package:ai_operator_app/modules/home/presentation/widgets/home_destination_card.dart';
-import 'package:ai_operator_app/modules/home/presentation/widgets/home_welcome_section.dart';
+import 'package:ai_operator_app/modules/home/presentation/components/home_destination_card.dart';
+import 'package:ai_operator_app/modules/home/presentation/components/home_welcome_section.dart';
 import 'package:ai_operator_app/shared/constants/app_strings.dart';
 import 'package:ai_operator_app/shared/theme/app_sizes.dart';
 import 'package:ai_operator_app/shared/theme/app_spacing.dart';

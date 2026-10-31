@@ -4,6 +4,7 @@ import 'package:ai_operator_app/modules/settings/domain/usecases/watch_dark_mode
 import 'package:ai_operator_app/modules/settings/presentation/viewmodel/settings_state.dart'
     show SettingsState, SettingsError, SettingsLoading;
 import 'package:ai_operator_app/modules/settings/presentation/viewmodel/settings_viewmodel.dart';
+import 'package:ai_operator_app/shared/components/app_snackbar.dart';
 import 'package:ai_operator_app/shared/constants/app_strings.dart';
 import 'package:ai_operator_app/shared/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +24,7 @@ class SettingsPage extends StatelessWidget {
       child: BlocConsumer<SettingsViewModel, SettingsState>(
         listener: (context, state) {
           if (state is SettingsError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error.toString())),
-            );
+            AppSnackBar.showError(context, state.error.toString());
           }
         },
         builder: (context, state) {

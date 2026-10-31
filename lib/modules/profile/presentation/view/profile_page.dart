@@ -5,6 +5,7 @@ import 'package:ai_operator_app/modules/profile/presentation/view/components/pro
 import 'package:ai_operator_app/modules/profile/presentation/viewmodel/profile_state.dart'
     show ProfileState, ProfileError, ProfileLoading;
 import 'package:ai_operator_app/modules/profile/presentation/viewmodel/profile_viewmodel.dart';
+import 'package:ai_operator_app/shared/components/app_snackbar.dart';
 import 'package:ai_operator_app/shared/constants/app_strings.dart';
 import 'package:ai_operator_app/shared/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +25,7 @@ class ProfilePage extends StatelessWidget {
       child: BlocConsumer<ProfileViewModel, ProfileState>(
         listener: (context, state) {
           if (state is ProfileError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error.toString())),
-            );
+            AppSnackBar.showError(context, state.error.toString());
           }
         },
         builder: (context, state) {

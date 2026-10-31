@@ -3,6 +3,7 @@ import 'package:ai_operator_app/modules/agent/presentation/view/components/agent
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_state.dart'
     show AgentState, AgentLoading, AgentError;
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_viewmodel.dart';
+import 'package:ai_operator_app/shared/components/app_snackbar.dart';
 import 'package:ai_operator_app/shared/constants/app_strings.dart';
 import 'package:ai_operator_app/shared/theme/app_sizes.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +17,7 @@ class AgentPage extends StatelessWidget {
     return BlocConsumer<AgentViewmodel, AgentState>(
       listener: (context, state) {
         if (state is AgentError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.error.toString())),
-          );
+          AppSnackBar.showError(context, state.error.toString());
         }
       },
       builder: (context, state) {

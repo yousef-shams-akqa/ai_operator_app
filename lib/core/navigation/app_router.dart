@@ -1,9 +1,9 @@
 import 'package:ai_operator_app/core/navigation/app_routes.dart';
-import 'package:ai_operator_app/core/navigation/main_shell_scaffold.dart';
+import 'package:ai_operator_app/modules/main/presentation/view/main_page.dart';
 import 'package:ai_operator_app/modules/agent/presentation/view/agent_page.dart';
 import 'package:ai_operator_app/modules/home/presentation/home_page.dart';
-import 'package:ai_operator_app/modules/profile/presentation/profile_page.dart';
-import 'package:ai_operator_app/modules/settings/presentation/settings_page.dart';
+import 'package:ai_operator_app/modules/profile/presentation/view/profile_page.dart';
+import 'package:ai_operator_app/modules/settings/presentation/view/settings_page.dart';
 import 'package:go_router/go_router.dart';
 
 final appRouter = GoRouter(
@@ -11,7 +11,7 @@ final appRouter = GoRouter(
   routes: [
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) =>
-          MainShellScaffold(navigationShell: navigationShell),
+          MainPage(navigationShell: navigationShell),
       branches: [
         StatefulShellBranch(
           routes: [

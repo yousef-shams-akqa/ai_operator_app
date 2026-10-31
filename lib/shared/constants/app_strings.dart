@@ -21,4 +21,5 @@ class AppStrings {
   static const String goToAgent = 'Agent';
 
   static const String agentMessageHint = 'Type your message...';
+  static const String agentMessageHintSecondary = 'Talk to your agent';
 }
