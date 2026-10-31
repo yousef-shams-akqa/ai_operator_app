@@ -1,4 +1,5 @@
 import 'package:ai_operator_app/core/ai/models/ai_configuration.dart';
+import 'package:ai_operator_app/core/ai/models/chat_message.dart';
 import 'package:ai_operator_app/core/ai/models/function_call_response.dart';
 import 'package:ai_operator_app/core/ai/interfaces/ai_action_handler.dart';
 import 'package:ai_operator_app/core/ai/service/ai_service.dart';
@@ -34,15 +35,16 @@ class GeminiAIService implements AIService {
   }
 
   @override
-  Future<String> send(String requestForAI, {String? appState}) async {
-    final chat = model.startChat();
-    final message = requestForAI + (appState ?? '');
-    var response = await chat.sendMessage(Content.text(message));
+  Future<String> send(String requestForAI, List<ChatMessage> chatHistory, {String? appContext}) async {
+    final chatHistoryContent = chatHistory.map(chatMessageToModelContent).toList();
+    final aiModelChat = model.startChat(history: chatHistoryContent);
+    final textMessageForAI = requestForAI + (appContext ?? '');
+    var aiResponse = await aiModelChat.sendMessage(Content.text(textMessageForAI));
 
-    while (response.functionCalls.isNotEmpty) {
+    while (aiResponse.functionCalls.isNotEmpty) {
       final functionResponseParts = <FunctionResponse>[];
 
-      for (final call in response.functionCalls) {
+      for (final call in aiResponse.functionCalls) {
         final functionCallResponse = FunctionCallResponse(call.name, call.args);
         final actionResult = await actionHandler.handle(functionCallResponse);
         final actionResultPayload = actionResult.fold(
@@ -55,9 +57,16 @@ class GeminiAIService implements AIService {
         );
       }
 
-      response = await chat.sendMessage(Content.functionResponses(functionResponseParts));
+      aiResponse = await aiModelChat.sendMessage(Content.functionResponses(functionResponseParts));
     }
 
-    return response.text ?? '';
+    return aiResponse.text ?? '';
+  }
+
+  Content chatMessageToModelContent(ChatMessage chatMessage) {
+    return switch (chatMessage.type) {
+      ChatMessageType.user => Content.text(chatMessage.message),
+      ChatMessageType.model => Content.model([TextPart(chatMessage.message)]),
+    };
   }
 }

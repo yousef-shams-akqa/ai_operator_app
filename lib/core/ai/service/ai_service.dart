@@ -1,6 +1,7 @@
 
 import 'package:ai_operator_app/core/ai/models/ai_configuration.dart';
 import 'package:ai_operator_app/core/ai/interfaces/ai_action_handler.dart';
+import 'package:ai_operator_app/core/ai/models/chat_message.dart';
 
 /// Abstract class for AI services.
 /// [T] is the type of the tools used by the AI service.
@@ -11,5 +12,5 @@ abstract class AIService {
   
   AIService({required this.modelName, required this.configuration, required this.actionHandler});
 
-  Future<String> send(String requestForAI, {String? appState});
+  Future<String> send(String requestForAI, List<ChatMessage> chatHistory, {String? appContext});
 }

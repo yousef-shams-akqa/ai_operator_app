@@ -1,5 +1,7 @@
+import 'package:ai_operator_app/core/ai/models/chat_message.dart';
+
 sealed class AgentState {
-  final List<String> chatMessages;
+  final List<ChatMessage> chatMessages;
 
   AgentState({required this.chatMessages});
 }

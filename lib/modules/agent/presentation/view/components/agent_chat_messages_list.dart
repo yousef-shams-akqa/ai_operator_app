@@ -1,3 +1,4 @@
+import 'package:ai_operator_app/core/ai/models/chat_message.dart';
 import 'package:ai_operator_app/modules/agent/presentation/view/components/agent_chat_message_bubble.dart';
 import 'package:ai_operator_app/shared/constants/app_constants.dart';
 import 'package:ai_operator_app/shared/theme/app_sizes.dart';
@@ -5,7 +6,7 @@ import 'package:ai_operator_app/shared/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 class AgentChatMessagesList extends StatefulWidget {
-  final List<String> chatMessages;
+  final List<ChatMessage> chatMessages;
   final bool isLoading;
   const AgentChatMessagesList({super.key, required this.chatMessages, required this.isLoading});
 
@@ -47,8 +48,8 @@ class _AgentChatMessagesListState extends State<AgentChatMessagesList> {
           );
         }
         return AgentChatMessageBubble(
-          isUser: index.isEven,
-          message: widget.chatMessages[index],
+          isUser: widget.chatMessages[index].type == ChatMessageType.user,
+          message: widget.chatMessages[index].message,
         );
       },
     );

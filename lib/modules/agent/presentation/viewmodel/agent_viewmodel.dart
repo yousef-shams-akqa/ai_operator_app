@@ -1,3 +1,4 @@
+import 'package:ai_operator_app/core/ai/models/chat_message.dart';
 import 'package:ai_operator_app/modules/agent/domain/usecases/send_ai_request_usecase.dart';
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,15 +11,26 @@ class AgentViewmodel extends Cubit<AgentState> {
   AgentViewmodel({required this.sendAiRequestUsecase, required this.appRouterContext}) 
   : super(AgentInitial(chatMessages: []));
 
-  Future<void> sendMessage(String message) async {
-    emit(AgentLoaded(chatMessages: state.chatMessages + [message]));
+  Future<void> sendMessage(String userMessage) async {
+    final currentChatHistory = state.chatMessages.toList();
+    final newChatHistory = state.chatMessages + [ChatMessage.user(userMessage)];
+    
+    emit(AgentLoading(chatMessages: newChatHistory));
+    final appContext = appRouterContext.getRouterContext();
+    final result = await sendAiRequestUsecase.call(userMessage, currentChatHistory, appContext: appContext);
 
-    emit(AgentLoading(chatMessages: state.chatMessages));
-    final appState = appRouterContext.getRouterContext();
-    final result = await sendAiRequestUsecase.call(message, appState: appState);
     result.fold(
-      (error) => emit(AgentError(chatMessages: state.chatMessages, error: error)),
-      (response) => emit(AgentLoaded(chatMessages: state.chatMessages + [response])),
+      (error) {
+        emit(AgentError(chatMessages: currentChatHistory, error: error));
+      },
+      (response) {
+        final newChatHistoryWithAiResponse = newChatHistory + [ChatMessage.model(response)];
+        emit(AgentLoaded(chatMessages: newChatHistoryWithAiResponse));
+      },
     );
+  }
+
+  void clearChat() {
+    emit(AgentInitial(chatMessages: []));
   }
 }

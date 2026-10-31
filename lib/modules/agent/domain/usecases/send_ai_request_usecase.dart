@@ -1,4 +1,5 @@
 
+import 'package:ai_operator_app/core/ai/models/chat_message.dart';
 import 'package:ai_operator_app/core/ai/service/ai_service.dart';
 import 'package:either_dart/either.dart';
 
@@ -7,9 +8,9 @@ class SendAiRequestUsecase {
 
   SendAiRequestUsecase({required this.aiService});
 
-  Future<Either<Error, String>> call(String message, {String? appState}) async {
+  Future<Either<Error, String>> call(String requestForAI, List<ChatMessage> chatHistory, {String? appContext}) async {
     try {
-      final response = await aiService.send(message, appState: appState);
+      final response = await aiService.send(requestForAI, chatHistory, appContext: appContext);
       return Right(response);
     } catch (e) {
       return Left(StateError(e.toString()));

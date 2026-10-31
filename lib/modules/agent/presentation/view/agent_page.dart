@@ -26,6 +26,12 @@ class AgentPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: const Text(AppStrings.goToAgent),
+            actions: [
+              IconButton(
+                onPressed: () => context.read<AgentViewmodel>().clearChat(),
+                icon: const Icon(Icons.refresh_outlined),
+              ),
+            ],
           ),
           body: Container(
             decoration: BoxDecoration(
