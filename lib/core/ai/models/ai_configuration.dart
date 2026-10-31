@@ -1,22 +1,25 @@
-import 'function_declaration.dart';
+
+import 'package:ai_operator_app/core/ai/constants/ai_constants.dart';
+
+import 'function_definition.dart';
 
 /// Runtime configuration for an AI session: instructions and available tools.
 class AIConfiguration {
   const AIConfiguration({
-    required this.systemPrompt,
-    this.functionDeclarations = const [],
+    this.systemPrompt = AIConstants.systemPrompt,
+    this.functionDefinitions = const [],
   });
 
   final String systemPrompt;
-  final List<FunctionDeclaration> functionDeclarations;
+  final List<FunctionDefinition> functionDefinitions;
 
   AIConfiguration copyWith({
     String? systemPrompt,
-    List<FunctionDeclaration>? functionDeclarations,
+    List<FunctionDefinition>? functionDefinitions,
   }) {
     return AIConfiguration(
       systemPrompt: systemPrompt ?? this.systemPrompt,
-      functionDeclarations: functionDeclarations ?? this.functionDeclarations,
+      functionDefinitions: functionDefinitions ?? this.functionDefinitions,
     );
   }
 }
