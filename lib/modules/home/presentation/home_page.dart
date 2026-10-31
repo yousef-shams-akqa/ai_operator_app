@@ -12,8 +12,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.homeTitle),
@@ -28,31 +26,12 @@ class HomePage extends StatelessWidget {
               children: [
                 const HomeWelcomeSection(),
                 SizedBox(height: AppSpacing.sectionGap),
-                Text(
-                  AppStrings.homeQuickActionsTitle,
-                  style: textTheme.titleMedium,
-                ),
-                SizedBox(height: AppSpacing.md),
                 HomeDestinationCard(
                   emphasized: true,
                   icon: Icons.chat_bubble_outline,
                   title: AppStrings.goToAgent,
                   subtitle: AppStrings.homeAgentDescription,
                   onTap: () => context.push(AppRoutes.agent),
-                ),
-                SizedBox(height: AppSpacing.md),
-                HomeDestinationCard(
-                  icon: Icons.person_outline,
-                  title: AppStrings.goToProfile,
-                  subtitle: AppStrings.profileBody,
-                  onTap: () => context.go(AppRoutes.profile),
-                ),
-                SizedBox(height: AppSpacing.md),
-                HomeDestinationCard(
-                  icon: Icons.settings_outlined,
-                  title: AppStrings.goToSettings,
-                  subtitle: AppStrings.settingsBody,
-                  onTap: () => context.go(AppRoutes.settings),
                 ),
               ],
             ),

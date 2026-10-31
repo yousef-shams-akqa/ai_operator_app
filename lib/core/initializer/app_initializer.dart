@@ -3,6 +3,7 @@ import 'package:ai_operator_app/core/ai/constants/ai_constants.dart';
 import 'package:ai_operator_app/core/ai/models/ai_configuration.dart';
 import 'package:ai_operator_app/core/ai/service/gemini/gemini_ai_service.dart';
 import 'package:ai_operator_app/core/data/repositories/user_preferences_repository_impl.dart';
+import 'package:ai_operator_app/core/domain/repositories/user_preferences_repository.dart';
 import 'package:ai_operator_app/core/domain/models/no_params.dart';
 import 'package:ai_operator_app/core/domain/usecases/navigate_usecase.dart';
 import 'package:ai_operator_app/core/navigation/app_router.dart';
@@ -21,7 +22,8 @@ import '../../firebase_options.dart';
 ValueNotifier<ThemeMode> appThemeMode = ValueNotifier<ThemeMode>(ThemeMode.light);
 
 class AppInitializer {
-  static final _userPreferencesRepository = UserPreferencesRepositoryImpl(AppPreferences());
+  static final UserPreferencesRepository userPreferencesRepository =
+      UserPreferencesRepositoryImpl(AppPreferences());
 
   static Future<void> initialize() async {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -33,7 +35,8 @@ class AppInitializer {
   }
 
   static Future<ThemeMode> loadThemeMode() async {
-    final darkMode = await GetDarkModeUseCase(_userPreferencesRepository).execute(NoParams());
+    final darkMode =
+        await GetDarkModeUseCase(userPreferencesRepository).execute(NoParams());
     final isDarkMode = darkMode.fold((_) => false, (value) => value.enabled);
     return isDarkMode ? ThemeMode.dark : ThemeMode.light;
   }
@@ -48,10 +51,10 @@ class AppInitializer {
       ),
       actionHandler: AiActionHandlerImpl(
         actions: [
-          GetProfileNameUseCase(_userPreferencesRepository),
-          SetProfileNameUseCase(_userPreferencesRepository),
-          GetDarkModeUseCase(_userPreferencesRepository),
-          SetDarkModeUseCase(_userPreferencesRepository),
+          GetProfileNameUseCase(userPreferencesRepository),
+          SetProfileNameUseCase(userPreferencesRepository),
+          GetDarkModeUseCase(userPreferencesRepository),
+          SetDarkModeUseCase(userPreferencesRepository),
           NavigateUseCase(appRouter)
         ],
       ),

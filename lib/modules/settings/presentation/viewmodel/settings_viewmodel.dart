@@ -1,30 +1,30 @@
-import 'package:ai_operator_app/core/domain/models/no_params.dart';
+import 'dart:async';
+
 import 'package:ai_operator_app/modules/settings/domain/models/set_dark_mode_params.dart';
-import 'package:ai_operator_app/modules/settings/domain/usecases/get_dark_mode_usecase.dart';
 import 'package:ai_operator_app/modules/settings/domain/usecases/set_dark_mode_usecase.dart';
+import 'package:ai_operator_app/modules/settings/domain/usecases/watch_dark_mode_usecase.dart';
 import 'package:ai_operator_app/modules/settings/presentation/viewmodel/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsViewModel extends Cubit<SettingsState> {
   SettingsViewModel({
-    required GetDarkModeUseCase getDarkMode,
+    required WatchDarkModeUseCase watchDarkMode,
     required SetDarkModeUseCase setDarkMode,
-  })  : _getDarkMode = getDarkMode,
+  })  : _watchDarkMode = watchDarkMode,
         _setDarkMode = setDarkMode,
-        super(SettingsInitial());
+        super(SettingsInitial()) {
+    _darkModeSubscription = _watchDarkMode.call().listen(_onDarkModeChanged);
+  }
 
-  final GetDarkModeUseCase _getDarkMode;
+  final WatchDarkModeUseCase _watchDarkMode;
   final SetDarkModeUseCase _setDarkMode;
+  StreamSubscription<bool>? _darkModeSubscription;
 
-  Future<void> load() async {
-    emit(SettingsLoading(isDarkModeEnabled: state.isDarkModeEnabled));
-    final result = await _getDarkMode.execute(NoParams());
-    result.fold(
-      (failure) => emit(
-        SettingsError(isDarkModeEnabled: state.isDarkModeEnabled, error: failure),
-      ),
-      (output) => emit(SettingsLoaded(isDarkModeEnabled: output.enabled)),
-    );
+  void _onDarkModeChanged(bool enabled) {
+    if (isClosed) {
+      return;
+    }
+    emit(SettingsLoaded(isDarkModeEnabled: enabled));
   }
 
   Future<void> setDarkMode(bool enabled) async {
@@ -34,7 +34,13 @@ class SettingsViewModel extends Cubit<SettingsState> {
       (failure) => emit(
         SettingsError(isDarkModeEnabled: state.isDarkModeEnabled, error: failure),
       ),
-      (_) => emit(SettingsLoaded(isDarkModeEnabled: enabled)),
+      (_) {},
     );
+  }
+
+  @override
+  Future<void> close() {
+    _darkModeSubscription?.cancel();
+    return super.close();
   }
 }

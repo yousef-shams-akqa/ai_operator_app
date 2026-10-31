@@ -1,9 +1,7 @@
-import 'package:ai_operator_app/core/navigation/app_routes.dart';
 import 'package:ai_operator_app/shared/constants/app_strings.dart';
 import 'package:ai_operator_app/shared/theme/app_sizes.dart';
 import 'package:ai_operator_app/shared/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class ProfileNameForm extends StatefulWidget {
   const ProfileNameForm({
@@ -83,10 +81,6 @@ class _ProfileNameFormState extends State<ProfileNameForm> {
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
               : const Text(AppStrings.profileSaveName),
-        ),
-        TextButton(
-          onPressed: widget.isLoading ? null : () => context.go(AppRoutes.home),
-          child: const Text(AppStrings.goToHome),
         ),
       ],
     );

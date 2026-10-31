@@ -4,10 +4,8 @@ class AppStrings {
 
   static const String homeTitle = 'Home';
   static const String homeBody = 'Welcome to AI Operator Agent.';
-  static const String homeQuickActionsTitle = 'Quick actions';
   static const String homeAgentDescription =
       'Execute app actions with AI.';
-
   static const String profileTitle = 'Profile';
   static const String profileBody = 'Your profile and account details.';
   static const String profileNameLabel = 'Name';
@@ -20,10 +18,7 @@ class AppStrings {
   static const String darkModeTitle = 'Dark mode';
   static const String darkModeSubtitle = 'Use a dark appearance across the app.';
 
-  static const String goToProfile = 'Profile';
-  static const String goToSettings = 'Settings';
   static const String goToAgent = 'Agent';
-  static const String goToHome = 'Home';
 
   static const String agentMessageHint = 'Type your message...';
 }

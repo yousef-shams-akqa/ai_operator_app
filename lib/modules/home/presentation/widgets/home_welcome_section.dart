@@ -11,52 +11,42 @@ class HomeWelcomeSection extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: EdgeInsets.all(AppSpacing.lg),
-          decoration: BoxDecoration(
-            color: colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(AppSizes.radiusLg),
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(AppSpacing.xl),
+      decoration: BoxDecoration(
+        color: colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(AppSizes.radiusLg),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
+              borderRadius: BorderRadius.circular(AppSizes.radiusMd),
+            ),
+            child: Icon(
+              Icons.auto_awesome_outlined,
+              size: AppSizes.iconLg,
+              color: colorScheme.onPrimary,
+            ),
           ),
-          child: Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(AppSpacing.md),
-                decoration: BoxDecoration(
-                  color: colorScheme.primary,
-                  borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-                ),
-                child: Icon(
-                  Icons.auto_awesome_outlined,
-                  size: AppSizes.iconLg,
-                  color: colorScheme.onPrimary,
-                ),
-              ),
-              SizedBox(width: AppSpacing.lg),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppStrings.appName,
-                      style: theme.textTheme.titleLarge,
-                    ),
-                    SizedBox(height: AppSpacing.xs),
-                    Text(
-                      AppStrings.homeBody,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onPrimaryContainer,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          SizedBox(height: AppSpacing.xl),
+          Text(
+            AppStrings.appName,
+            style: theme.textTheme.headlineMedium,
           ),
-        ),
-      ],
+          SizedBox(height: AppSpacing.xs),
+          Text(
+            AppStrings.homeBody,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onPrimaryContainer,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

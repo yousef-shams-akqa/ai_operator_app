@@ -1,7 +1,6 @@
-import 'package:ai_operator_app/core/data/repositories/user_preferences_repository_impl.dart';
-import 'package:ai_operator_app/core/storage/app_preferences.dart';
-import 'package:ai_operator_app/modules/profile/domain/usecases/get_profile_name_usecase.dart';
+import 'package:ai_operator_app/core/initializer/app_initializer.dart';
 import 'package:ai_operator_app/modules/profile/domain/usecases/set_profile_name_usecase.dart';
+import 'package:ai_operator_app/modules/profile/domain/usecases/watch_profile_name_usecase.dart';
 import 'package:ai_operator_app/modules/profile/presentation/view/components/profile_name_form.dart';
 import 'package:ai_operator_app/modules/profile/presentation/viewmodel/profile_state.dart'
     show ProfileState, ProfileError, ProfileLoading;
@@ -16,12 +15,12 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repository = UserPreferencesRepositoryImpl(AppPreferences());
+    final repository = AppInitializer.userPreferencesRepository;
     return BlocProvider(
       create: (_) => ProfileViewModel(
-        getProfileName: GetProfileNameUseCase(repository),
+        watchProfileName: WatchProfileNameUseCase(repository),
         setProfileName: SetProfileNameUseCase(repository),
-      )..load(),
+      ),
       child: BlocConsumer<ProfileViewModel, ProfileState>(
         listener: (context, state) {
           if (state is ProfileError) {

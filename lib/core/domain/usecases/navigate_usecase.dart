@@ -1,4 +1,5 @@
 import 'package:ai_operator_app/core/ai/interfaces/ai_executable_action.dart';
+import 'package:ai_operator_app/core/navigation/app_routes.dart';
 import 'package:ai_operator_app/core/domain/failures/navigation_failure.dart';
 import 'package:ai_operator_app/core/domain/models/unit.dart';
 import 'package:ai_operator_app/core/domain/models/navigate_params.dart';
@@ -18,6 +19,7 @@ class NavigateUseCase implements AiExecutableAction<NavigateParams, Unit, Naviga
 
   @override
   Future<Either<NavigationFailure, Unit>> execute(NavigateParams input) async {
+    await Future.delayed(const Duration(seconds: 2));
     final router = _router;
     try {
       if (input.pop) {
@@ -27,9 +29,11 @@ class NavigateUseCase implements AiExecutableAction<NavigateParams, Unit, Naviga
 
       final location = _locationWithParameters(input);
 
-      if (input.replace) {
+      // Tabs always switch with go. Pushing or replacing onto a tab duplicates
+      // the shell's page key and crashes the Navigator.
+      if (input.replace && !_isTabLocation(location)) {
         router.replace(location, extra: input.extra);
-      } else if (input.push) {
+      } else if (input.push && !_isTabLocation(location)) {
         router.push(location, extra: input.extra);
       } else {
         router.go(location, extra: input.extra);
@@ -41,6 +45,10 @@ class NavigateUseCase implements AiExecutableAction<NavigateParams, Unit, Naviga
         NavigationFailure('Navigation failed', error, stackTrace),
       );
     }
+  }
+
+  bool _isTabLocation(String location) {
+    return AppRoutes.tabs.contains(Uri.parse(location).path);
   }
 
   String _locationWithParameters(NavigateParams input) {

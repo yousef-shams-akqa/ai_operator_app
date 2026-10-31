@@ -1,8 +1,6 @@
-import 'package:ai_operator_app/core/data/repositories/user_preferences_repository_impl.dart';
-import 'package:ai_operator_app/core/navigation/app_routes.dart';
-import 'package:ai_operator_app/core/storage/app_preferences.dart';
-import 'package:ai_operator_app/modules/settings/domain/usecases/get_dark_mode_usecase.dart';
+import 'package:ai_operator_app/core/initializer/app_initializer.dart';
 import 'package:ai_operator_app/modules/settings/domain/usecases/set_dark_mode_usecase.dart';
+import 'package:ai_operator_app/modules/settings/domain/usecases/watch_dark_mode_usecase.dart';
 import 'package:ai_operator_app/modules/settings/presentation/viewmodel/settings_state.dart'
     show SettingsState, SettingsError, SettingsLoading;
 import 'package:ai_operator_app/modules/settings/presentation/viewmodel/settings_viewmodel.dart';
@@ -10,19 +8,18 @@ import 'package:ai_operator_app/shared/constants/app_strings.dart';
 import 'package:ai_operator_app/shared/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final repository = UserPreferencesRepositoryImpl(AppPreferences());
+    final repository = AppInitializer.userPreferencesRepository;
     return BlocProvider(
       create: (_) => SettingsViewModel(
-        getDarkMode: GetDarkModeUseCase(repository),
+        watchDarkMode: WatchDarkModeUseCase(repository),
         setDarkMode: SetDarkModeUseCase(repository),
-      )..load(),
+      ),
       child: BlocConsumer<SettingsViewModel, SettingsState>(
         listener: (context, state) {
           if (state is SettingsError) {
@@ -59,10 +56,6 @@ class SettingsPage extends StatelessWidget {
                     onChanged: isLoading
                         ? null
                         : (value) => context.read<SettingsViewModel>().setDarkMode(value),
-                  ),
-                  TextButton(
-                    onPressed: () => context.go(AppRoutes.home),
-                    child: const Text(AppStrings.goToHome),
                   ),
                 ],
               ),
