@@ -41,6 +41,8 @@ dependencies:
   firebase_app_check: ^0.5.1
   shared_preferences: ^2.5.3
   flutter_bloc: ^9.1.1
+  either_dart: ^1.0.0
+  flutter_markdown_plus: ^1.0.12
 
 dev_dependencies:
   flutter_test:
