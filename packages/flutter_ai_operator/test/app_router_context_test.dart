@@ -1,7 +1,5 @@
-import '../../../../packages/flutter_ai_operator/lib/src/helpers/app_router_context.dart';
+import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 import 'package:flutter/widgets.dart';
-// Tests intentionally live under lib; flutter_test remains a dev dependency.
-// ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 

@@ -1,15 +1,6 @@
 import 'dart:convert';
 
-import '../../../../../packages/flutter_ai_operator/lib/src/interfaces/ai_action_handler.dart';
-import '../../../../../packages/flutter_ai_operator/lib/src/models/ai_configuration.dart';
-import '../../../../../packages/flutter_ai_operator/lib/src/models/ai_provider.dart';
-import '../../../../../packages/flutter_ai_operator/lib/src/models/function_call_response.dart';
-import '../../../../../packages/flutter_ai_operator/lib/src/models/function_definition.dart';
-import '../../../../../packages/flutter_ai_operator/lib/src/service/ai_provider_client.dart';
-import '../../../../../packages/flutter_ai_operator/lib/src/service/ai_service.dart';
-import '../../../../../packages/flutter_ai_operator/lib/src/service/claude/claude_ai_service.dart';
-import '../../../../../packages/flutter_ai_operator/lib/src/service/gemini/gemini_ai_service.dart';
-import '../../../../../packages/flutter_ai_operator/lib/src/service/openai/openai_ai_service.dart';
+import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 import 'package:either_dart/either.dart';
 // The final SDK model requires its test factory to replace the transport.
 // ignore: implementation_imports
@@ -17,6 +8,12 @@ import 'package:firebase_ai/src/base_model.dart' show createModelWithClient;
 // ignore: implementation_imports
 import 'package:firebase_ai/src/client.dart' show ApiClient;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_ai_operator/src/interfaces/ai_service.dart';
+import 'package:flutter_ai_operator/src/models/function_call_response.dart';
+import 'package:flutter_ai_operator/src/service/claude/claude_ai_service.dart';
+import 'package:flutter_ai_operator/src/service/gemini/gemini_ai_service.dart';
+import 'package:flutter_ai_operator/src/service/openai/openai_ai_service.dart';
+import 'package:flutter_ai_operator/src/service/shared/ai_provider_client.dart';
 // Tests intentionally live under lib; flutter_test remains a dev dependency.
 // ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';
