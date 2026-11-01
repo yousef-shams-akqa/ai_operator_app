@@ -6,6 +6,9 @@ Keep provider integration and navigation context within `core/ai`. See the
 [provider architecture](../../../documentation/features/ai-providers.md) for
 the shared contract and failure types.
 
+For a beginner walkthrough of extracting this code and publishing it, see
+[the Flutter package guide](../../../Documentation/ai-package-guide.md).
+
 ## Entry Points
 
 - `AIServiceFactory.create()` constructs the selected provider for normal use.
@@ -34,7 +37,8 @@ calls `currentStack()` and `routeTree()` to include their evaluated values.
 
 ## Testing
 
-Run scoped static analysis with `flutter analyze --no-pub lib/core/ai`.
-Focused regression tests are planned under `lib/core/ai/testing`; they have not
-been added yet. Cover injected Gemini models with an offline SDK transport and
-assert router context contains evaluated paths instead of method references.
+Run `flutter test --no-pub lib/core/ai/testing` for the offline regression suite
+and `flutter analyze --no-pub lib/core/ai` for scoped static analysis. The
+default `flutter test` discovery in `test/` does not include this suite.
+See the [test guide](testing/README.md) for the shared service contract,
+fixture ownership and excluded provider-specific details.

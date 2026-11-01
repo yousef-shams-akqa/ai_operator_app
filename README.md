@@ -17,4 +17,5 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Project documentation
 
+- [Extracting and publishing the AI package](Documentation/ai-package-guide.md)
 - [Integrating Gemma On Device in Flutter](Documentation/flutter-edge-ai-gemma.md)
