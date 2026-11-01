@@ -64,8 +64,8 @@ final service = const AIServiceFactory().create(
 - `JsonSchemaFunctionDefinitionMapper` — converts app function definitions to
   a provider-neutral JSON representation with `name`, `description`, and
   `parameters`. Its source is `AIConfiguration.functionDefinitions`; its
-  output is wrapped in OpenAI or Claude request fields by those adapters. It is
-  provider data mapping.
+  output is wrapped in each provider's request fields by its adapter (OpenAI,
+  Claude, and Gemini). It is provider data mapping.
 - `AIProvider` — identifies which adapter the caller selects. It owns no model
   configuration, key lifecycle, or persistence.
 - `AiActionHandler` — remains the existing capability boundary for app actions.
@@ -91,6 +91,7 @@ flowchart TD
   Claude -->|"postJson(messages)"| Client
   OpenAI -->|"map function schemas"| Mapper
   Claude -->|"map tool schemas"| Mapper
+  Gemini -->|"map tool schemas"| Mapper
   OpenAI -->|"execute function calls"| ActionHandler
   Claude -->|"execute tool calls"| ActionHandler
 ```
@@ -122,6 +123,11 @@ flowchart TD
   `gpt-6-luna` is the documented sample model ID.
 - Claude uses `POST https://api.anthropic.com/v1/messages`, tool-use blocks, and
   `claude-sonnet-5-5` is the documented sample model ID.
+- Gemini uses `JsonSchemaFunctionDefinitionMapper` too. The SDK only builds
+  declarations from its own typed schemas, so `GeminiAIService` wraps each
+  mapped tool in a private `FunctionDeclaration` subclass that overrides
+  `toJson()` and sends it as `parametersJsonSchema`. If a `firebase_ai` upgrade
+  changes how `Tool` serializes declarations, tool calls on Gemini break first.
 - Gemini continues to use the existing Firebase AI SDK and
   the caller-supplied model ID (the current app uses `gemini-3.5-flash-lite`).
 - OpenAI and Claude API keys are supplied by the caller; these API products use
@@ -157,7 +163,7 @@ IDs](https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versi
 - OpenAI and Claude failures are thrown as `AIProviderFailure` subclasses by the
   service (not the client); the existing `SendAiRequestUsecase` boundary can
   surface these through the agent's current failure state. Missing API keys
-  are still a `StateError` from `AIServiceFactory`, and Gemini is unchanged.
+  are still a `StateError` from `AIServiceFactory`, and Gemini's errors are unchanged.
 - Tool calls run sequentially through the existing action handler and each
   adapter stops after 12 consecutive tool rounds.
 - Malformed tool arguments and responses fail explicitly instead of becoming an
