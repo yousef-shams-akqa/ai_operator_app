@@ -22,17 +22,12 @@ class AppRouterContext {
   String routeTree() {
     String build(List<RouteBase> routes) {
       return routes.map((route) {
-        final path = route is GoRoute
-            ? route.path
-            : route.runtimeType.toString();
+        final path = route is GoRoute ? route.path : route.runtimeType.toString();
 
         final children = route is StatefulShellRoute
-            ? route.branches.expand((b) => b.routes).toList()
-            : route.routes;
+            ? route.branches.expand((b) => b.routes).toList() : route.routes;
 
-        return children.isEmpty
-            ? path
-            : '$path { ${build(children)} }';
+        return children.isEmpty ? path : '$path { ${build(children)} }';
       }).join(', ');
     }
 
