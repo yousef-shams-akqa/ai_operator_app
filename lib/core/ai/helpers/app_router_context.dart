@@ -1,18 +1,14 @@
 import 'package:go_router/go_router.dart';
 
-/// Describes where the user is in the app, as text for the model.
+/// Navigation context for the AI layer, derived from [GoRouter].
 ///
 /// The result of [getRouterContext] is passed as `appContext` and appended to
 /// the user's request, so the model can pick correct navigation targets.
-class AppRouterContext {
-  final GoRouter router;
-
-  AppRouterContext(this.router);
-
+extension AppRouterContext on GoRouter {
   /// Current active navigation stack.
   /// Example: '/home → /home/settings → /home/settings/profile'
   String currentStack() {
-    return router.routerDelegate.currentConfiguration.matches
+    return routerDelegate.currentConfiguration.matches
         .map((m) => m.matchedLocation)
         .join(' → ');
   }
@@ -25,13 +21,14 @@ class AppRouterContext {
         final path = route is GoRoute ? route.path : route.runtimeType.toString();
 
         final children = route is StatefulShellRoute
-            ? route.branches.expand((b) => b.routes).toList() : route.routes;
+            ? route.branches.expand((b) => b.routes).toList()
+            : route.routes;
 
         return children.isEmpty ? path : '$path { ${build(children)} }';
       }).join(', ');
     }
 
-    return build(router.configuration.routes);
+    return build(configuration.routes);
   }
 
   /// Returns the current navigation stack and route tree.

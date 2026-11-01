@@ -33,19 +33,17 @@ void main() {
       WidgetsApp.router(routerConfig: router, color: const Color(0xFFFFFFFF)),
     );
     await tester.pumpAndSettle();
-    final context = AppRouterContext(router);
-
     expect(
-      context.getRouterContext(),
+      router.getRouterContext(),
       '\n Current stack: /home → /home/settings → /home/settings/profile '
       '\n Route tree: /home { settings { profile } } \n',
     );
 
     router.go('/home');
     await tester.pumpAndSettle();
-    expect(context.currentStack(), '/home');
+    expect(router.currentStack(), '/home');
     expect(
-      context.getRouterContext(),
+      router.getRouterContext(),
       '\n Current stack: /home \n Route tree: /home { settings { profile } } \n',
     );
     await tester.pumpWidget(const SizedBox());
@@ -68,7 +66,7 @@ void main() {
     addTearDown(router.dispose);
 
     expect(
-      AppRouterContext(router).routeTree(),
+      router.routeTree(),
       'ShellRoute { /home, /settings }, /about',
     );
   });
@@ -106,7 +104,7 @@ void main() {
     addTearDown(router.dispose);
 
     expect(
-      AppRouterContext(router).routeTree(),
+      router.routeTree(),
       'StatefulShellRoute { /feed, /settings { profile } }',
     );
   });

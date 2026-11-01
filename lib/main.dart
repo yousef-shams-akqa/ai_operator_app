@@ -1,4 +1,3 @@
-import 'package:ai_operator_app/core/ai/helpers/app_router_context.dart';
 import 'package:ai_operator_app/core/initializer/app_initializer.dart';
 import 'package:ai_operator_app/core/navigation/app_router.dart';
 import 'package:ai_operator_app/modules/agent/domain/usecases/send_ai_request_usecase.dart';
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (_) => AgentViewmodel(
         sendAiRequestUsecase: SendAiRequestUsecase(aiService: AppInitializer.aiService),
-        appRouterContext: AppRouterContext(appRouter),
+        router: appRouter,
       ),
       child: ValueListenableBuilder<ThemeMode>(
         valueListenable: appThemeMode,
