@@ -36,6 +36,6 @@ class AppRouterContext {
 
   /// Returns the current navigation stack and route tree.
   String getRouterContext() {
-    return '\n Current stack: $currentStack() \n Route tree: $routeTree() \n';
+    return '\n Current stack: ${currentStack()} \n Route tree: ${routeTree()} \n';
   }
 }

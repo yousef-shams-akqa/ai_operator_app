@@ -18,11 +18,14 @@ class GeminiAIService implements AIService {
   @override
   final AiActionHandler actionHandler;
 
+  /// Uses [model] when supplied; otherwise builds one from the configuration.
+  /// An injected model must already use the requested model name and settings.
   GeminiAIService({
     required this.modelName,
     required this.configuration,
     required this.actionHandler,
-  }) : model = _createModel(modelName, configuration);
+    GenerativeModel? model,
+  }) : model = model ?? _createModel(modelName, configuration);
 
   static const _functionDefinitionMapper = JsonSchemaFunctionDefinitionMapper();
 
