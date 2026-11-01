@@ -1,9 +1,11 @@
+import 'package:ai_operator_app/core/ai/constants/ai_constants.dart';
 import 'package:ai_operator_app/core/ai/models/ai_configuration.dart';
 import 'package:ai_operator_app/core/ai/models/chat_message.dart';
 import 'package:ai_operator_app/core/ai/models/function_call_response.dart';
 import 'package:ai_operator_app/core/ai/interfaces/ai_action_handler.dart';
 import 'package:ai_operator_app/core/ai/service/ai_service.dart';
 import 'package:ai_operator_app/core/ai/service/json_schema_function_definition_mapper.dart';
+import 'package:ai_operator_app/core/domain/failures/ai_provider_failure.dart';
 import 'package:ai_operator_app/shared/constants/app_constants.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 
@@ -38,31 +40,40 @@ class GeminiAIService implements AIService {
 
   @override
   Future<String> send(String requestForAI, List<ChatMessage> chatHistory, {String? appContext}) async {
-    final chatHistoryContent = chatHistory.map(chatMessageToModelContent).toList();
-    final aiModelChat = model.startChat(history: chatHistoryContent);
-    final textMessageForAI = requestForAI + (appContext ?? '');
-    var aiResponse = await aiModelChat.sendMessage(Content.text(textMessageForAI));
+    try {
+      final chatHistoryContent = chatHistory.map(chatMessageToModelContent).toList();
+      final aiModelChat = model.startChat(history: chatHistoryContent);
+      final textMessageForAI = requestForAI + (appContext ?? '');
+      var aiResponse = await aiModelChat.sendMessage(Content.text(textMessageForAI));
 
-    while (aiResponse.functionCalls.isNotEmpty) {
-      final functionResponseParts = <FunctionResponse>[];
+      for (var round = 0; aiResponse.functionCalls.isNotEmpty; round++) {
+        if (round >= AIConstants.maxToolRounds) {
+          throw AIProviderTooManyCallsFailure();
+        }
+        final functionResponseParts = <FunctionResponse>[];
 
-      for (final call in aiResponse.functionCalls) {
-        final functionCallResponse = FunctionCallResponse(call.name, call.args);
-        final actionResult = await actionHandler.handle(functionCallResponse);
-        final actionResultPayload = actionResult.fold(
-          (error) => {'error': error.toString()},
-          (value) => {'result': value},
-        );
+        for (final call in aiResponse.functionCalls) {
+          final functionCallResponse = FunctionCallResponse(call.name, call.args);
+          final actionResult = await actionHandler.handle(functionCallResponse);
+          final actionResultPayload = actionResult.fold(
+            (error) => {'error': error.toString()},
+            (value) => {'result': value},
+          );
 
-        functionResponseParts.add(
-          FunctionResponse(call.name, actionResultPayload, id: call.id),
-        );
+          functionResponseParts.add(
+            FunctionResponse(call.name, actionResultPayload, id: call.id),
+          );
+        }
+
+        aiResponse = await aiModelChat.sendMessage(Content.functionResponses(functionResponseParts));
       }
 
-      aiResponse = await aiModelChat.sendMessage(Content.functionResponses(functionResponseParts));
+      return aiResponse.text ?? (throw AIProviderEmptyResponseFailure());
+    } on FirebaseAIException catch (error) {
+      throw AIProviderRequestFailure(message: error.message);
+    } on FirebaseAISdkException {
+      throw AIProviderInvalidResponseFailure();
     }
-
-    return aiResponse.text ?? '';
   }
 
   Content chatMessageToModelContent(ChatMessage chatMessage) {
@@ -86,8 +97,7 @@ class _JsonFunctionDeclaration extends FunctionDeclaration {
   static const _parametersKey = 'parameters';
   static const _parametersJsonSchemaKey = 'parametersJsonSchema';
 
-  _JsonFunctionDeclaration(this._definition)
-    : super(
+  _JsonFunctionDeclaration(this._definition) : super(
         _definition[_nameKey] as String,
         _definition[_descriptionKey] as String,
         parameters: const {},

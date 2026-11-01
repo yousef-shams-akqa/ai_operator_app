@@ -49,8 +49,10 @@ final service = const AIServiceFactory().create(
 - `AIProviderFailure` (`lib/core/domain/failures/ai_provider_failure.dart`) —
   base failure with `code` (int), `reason` (stable string such as
   `TOO_MANY_CALLS`) and an optional `message` (human detail, set only when
-  there is some; do not branch on it). It is runtime-only. Only the OpenAI and
-  Claude services throw its subclasses; `SendAiRequestUsecase` catches them.
+  there is some; do not branch on it). It is runtime-only. Only the three
+  provider services throw its subclasses (Gemini maps `FirebaseAIException` to
+  `AIProviderRequestFailure` with code 0 and `FirebaseAISdkException` to
+  `AIProviderInvalidResponseFailure`); `SendAiRequestUsecase` catches them.
   Only `AIProviderRequestFailure` sets `message`, to the provider's own error
   text (for example "Incorrect API key"). No failure names the provider.
 
@@ -160,12 +162,17 @@ IDs](https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versi
 
 ## Edge Cases
 
-- OpenAI and Claude failures are thrown as `AIProviderFailure` subclasses by the
-  service (not the client); the existing `SendAiRequestUsecase` boundary can
-  surface these through the agent's current failure state. Missing API keys
-  are still a `StateError` from `AIServiceFactory`, and Gemini's errors are unchanged.
+- Gemini, OpenAI, and Claude failures are thrown as `AIProviderFailure`
+  subclasses by the service (not the client); the existing
+  `SendAiRequestUsecase` boundary can surface these through the agent's current
+  failure state. Missing API keys are still a `StateError` from
+  `AIServiceFactory`.
+- A Gemini response blocked for safety surfaces as `AIProviderRequestFailure`
+  with code 0 and the SDK's explanation in `message`.
 - Tool calls run sequentially through the existing action handler and each
-  adapter stops after 12 consecutive tool rounds.
+  adapter (including Gemini) stops after `AIConstants.maxToolRounds` (12)
+  consecutive tool rounds. An empty reply is `AIProviderEmptyResponseFailure`
+  for all three.
 - Malformed tool arguments and responses fail explicitly instead of becoming an
   empty assistant reply.
 - OpenAI function tools are sent with `strict: false`. Strict mode requires

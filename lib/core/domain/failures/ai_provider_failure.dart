@@ -1,4 +1,5 @@
-/// An OpenAI or Claude request failed or returned something unusable.
+/// An AI provider (Gemini, OpenAI, or Claude) request failed or returned
+/// something unusable.
 ///
 /// Throw one of the subclasses below instead of this class directly.
 class AIProviderFailure extends Error {
@@ -18,8 +19,9 @@ class AIProviderFailure extends Error {
       'AIProviderFailure($code): $reason${message == null ? '' : ' - $message'}';
 }
 
-/// The HTTP request failed. [code] is the HTTP status, or 0 when no response
-/// arrived (offline, timeout). [message] is the provider's error text if any.
+/// The request failed. [code] is the HTTP status, or 0 when there is none
+/// (offline, timeout, or Gemini, whose SDK hides the status). [message] is the
+/// provider's error text if any.
 class AIProviderRequestFailure extends AIProviderFailure {
   AIProviderRequestFailure({int? statusCode, super.message})
     : super(statusCode ?? 0, 'REQUEST_FAILED');
