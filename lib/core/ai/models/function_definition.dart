@@ -1,5 +1,5 @@
 
-/// Describes a function the model may call, aligned with Gemini function calling.
+/// Describes an app function that a supported AI provider may call.
 class FunctionDefinition {
   const FunctionDefinition({
     required this.name,
@@ -52,7 +52,7 @@ class FunctionParameter {
   }
 }
 
-/// JSON Schema–style parameter types supported for Gemini function calling.
+/// JSON Schema parameter types shared by supported provider adapters.
 enum FunctionParameterType {
   string,
   number,

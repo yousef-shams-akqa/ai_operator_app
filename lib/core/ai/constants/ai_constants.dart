@@ -1,4 +1,7 @@
 class AIConstants {
+  /// Most consecutive model-requested tool rounds before a request fails.
+  static const int maxToolRounds = 12;
+
   static const String systemPrompt = '''
   You are a helpful assistant that can help the user with their tasks.
   You will use the available tools to execute actions based on the user's request.
