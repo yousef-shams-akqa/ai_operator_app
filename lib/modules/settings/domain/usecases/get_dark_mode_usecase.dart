@@ -3,7 +3,6 @@ import 'package:ai_operator_app/core/domain/failures/user_preferences_failure.da
 import 'package:ai_operator_app/core/domain/models/dark_mode_output.dart';
 import 'package:ai_operator_app/core/domain/repositories/user_preferences_repository.dart';
 import 'package:ai_operator_app/core/domain/models/no_params.dart';
-import 'package:either_dart/either.dart';
 
 class GetDarkModeUseCase
     implements AiExecutableAction<NoParams, DarkModeOutput, UserPreferencesFailure> {

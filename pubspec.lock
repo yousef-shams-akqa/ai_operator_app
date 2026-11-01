@@ -217,10 +217,12 @@ packages:
   flutter_ai_operator:
     dependency: "direct main"
     description:
-      path: "packages/flutter_ai_operator"
-      relative: true
-    source: path
-    version: "1.0.0"
+      path: "."
+      ref: HEAD
+      resolved-ref: "526a75df0595fa34ad9149c7cb507fddb9a6b878"
+      url: "https://github.com/yousef-shams-akqa/flutter_ai_operator"
+    source: git
+    version: "0.1.0"
   flutter_bloc:
     dependency: "direct main"
     description:

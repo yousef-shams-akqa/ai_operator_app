@@ -43,7 +43,8 @@ dependencies:
   either_dart: ^1.0.0
   flutter_markdown_plus: ^1.0.12
   flutter_ai_operator:
-    path: ./packages/flutter_ai_operator
+    git:
+      url: https://github.com/yousef-shams-akqa/flutter_ai_operator
 
 dev_dependencies:
   flutter_test:

@@ -9,7 +9,6 @@ import 'package:ai_operator_app/modules/settings/domain/models/set_dark_mode_par
 import 'package:ai_operator_app/modules/settings/domain/usecases/get_dark_mode_usecase.dart';
 import 'package:ai_operator_app/modules/settings/domain/usecases/set_dark_mode_usecase.dart';
 import 'package:ai_operator_app/shared/ai/ai_functions_definitions_list.dart';
-import 'package:either_dart/either.dart';
 
 /// Maps each [AIFunctionName] to its use case and builds that use case's input
 /// from the model's arguments.

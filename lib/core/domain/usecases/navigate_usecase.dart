@@ -3,7 +3,6 @@ import 'package:ai_operator_app/core/navigation/app_routes.dart';
 import 'package:ai_operator_app/core/domain/failures/navigation_failure.dart';
 import 'package:ai_operator_app/core/domain/models/unit.dart';
 import 'package:ai_operator_app/core/domain/models/navigate_params.dart';
-import 'package:either_dart/either.dart';
 import 'package:go_router/go_router.dart';
 
 class NavigateUseCase implements AiExecutableAction<NavigateParams, Unit, NavigationFailure> {
