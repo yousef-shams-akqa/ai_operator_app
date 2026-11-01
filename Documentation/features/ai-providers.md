@@ -22,7 +22,7 @@ action handler at composition time.
 Example core-layer construction:
 
 ```dart
-final service = const AIServiceFactory().create(
+final service = AIServiceFactory.create(
   provider: AIProvider.openAI,
   modelName: 'gpt-6-luna',
   apiKey: userSuppliedApiKey,
@@ -33,7 +33,8 @@ final service = const AIServiceFactory().create(
 
 ## Responsibility Check
 
-- `AIServiceFactory` — exists to select and construct a provider adapter. It
+- `AIServiceFactory` — exposes a static `create()` method to select and construct
+  a new provider adapter on each call. It
   owns no persistence, UI, API-key lifecycle, or provider selection policy. Its
   inputs come from the caller; its output is an `AIService` consumed by an
   application use case. It is runtime wiring.

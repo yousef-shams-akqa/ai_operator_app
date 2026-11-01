@@ -43,7 +43,7 @@ class AppInitializer {
   static late final AIService aiService;
 
   static Future<void> initializeAI() async {
-    aiService = const AIServiceFactory().create(
+    aiService = AIServiceFactory.create(
       provider: AIProvider.gemini,
       configuration: AIConfiguration(
         functionDefinitions: AIFunctionsDefinitionsList.all,
