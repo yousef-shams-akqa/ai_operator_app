@@ -1,3 +1,5 @@
+/// One earlier turn of the conversation, resent to the provider on every
+/// request. [ChatMessageType.model] is sent as `assistant` to OpenAI and Claude.
 class ChatMessage {
   final String message;
   final ChatMessageType type;

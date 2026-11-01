@@ -7,7 +7,7 @@ import 'package:ai_operator_app/core/ai/models/chat_message.dart';
 import 'package:ai_operator_app/core/ai/models/function_call_response.dart';
 import 'package:ai_operator_app/core/ai/service/ai_provider_client.dart';
 import 'package:ai_operator_app/core/ai/service/ai_service.dart';
-import 'package:ai_operator_app/core/ai/service/json_schema_function_definition_mapper.dart';
+import 'package:ai_operator_app/core/ai/helpers/json_schema_function_definition_mapper.dart';
 import 'package:ai_operator_app/core/domain/failures/ai_provider_failure.dart';
 import 'package:dio/dio.dart';
 

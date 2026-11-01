@@ -4,11 +4,11 @@ import 'package:ai_operator_app/core/ai/models/chat_message.dart';
 import 'package:ai_operator_app/core/ai/models/function_call_response.dart';
 import 'package:ai_operator_app/core/ai/interfaces/ai_action_handler.dart';
 import 'package:ai_operator_app/core/ai/service/ai_service.dart';
-import 'package:ai_operator_app/core/ai/service/json_schema_function_definition_mapper.dart';
+import 'package:ai_operator_app/core/ai/helpers/json_schema_function_definition_mapper.dart';
 import 'package:ai_operator_app/core/domain/failures/ai_provider_failure.dart';
-import 'package:ai_operator_app/shared/constants/app_constants.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 
+/// Talks to Gemini through the Firebase AI SDK, which runs the chat session.
 class GeminiAIService implements AIService {
   final GenerativeModel model;
   @override
@@ -18,24 +18,22 @@ class GeminiAIService implements AIService {
   @override
   final AiActionHandler actionHandler;
 
-  GeminiAIService._(this.model, this.modelName, this.configuration, this.actionHandler);
+  GeminiAIService({
+    required this.modelName,
+    required this.configuration,
+    required this.actionHandler,
+  }) : model = _createModel(modelName, configuration);
 
-  static GeminiAIService? instance;
-  static final _functionDefinitionMapper = JsonSchemaFunctionDefinitionMapper();
-  static GeminiAIService initialize({
-    String modelName = AppConstants.geminiModel,
-    required AIConfiguration configuration,
-    required AiActionHandler actionHandler,
-  }) {
+  static const _functionDefinitionMapper = JsonSchemaFunctionDefinitionMapper();
+
+  static GenerativeModel _createModel(String modelName, AIConfiguration configuration) {
     final definitions = _functionDefinitionMapper.toolsFromDefinitions(configuration.functionDefinitions);
-    final model = FirebaseAI.googleAI().generativeModel(
+    return FirebaseAI.googleAI().generativeModel(
       model: modelName,
       systemInstruction: Content.text(configuration.systemPrompt),
       tools: definitions.isEmpty ? null
           : [Tool.functionDeclarations(definitions.map(_JsonFunctionDeclaration.new).toList())],
     );
-
-    return instance ??= GeminiAIService._(model, modelName, configuration, actionHandler);
   }
 
   @override

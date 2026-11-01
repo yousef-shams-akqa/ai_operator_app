@@ -13,10 +13,6 @@ class SetDarkModeUseCase implements AiExecutableAction<SetDarkModeParams, Unit, 
   final UserPreferencesRepository _repository;
 
   @override
-  SetDarkModeParams fromJson(Map<String, dynamic> json) =>
-      SetDarkModeParams.fromJson(json);
-
-  @override
   Future<Either<UserPreferencesFailure, Unit>> execute(SetDarkModeParams input) async {
     try {
       await _repository.saveDarkModeEnabled(input.enabled);

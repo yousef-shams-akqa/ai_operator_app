@@ -12,11 +12,6 @@ class NavigateUseCase implements AiExecutableAction<NavigateParams, Unit, Naviga
 
   final GoRouter _router;
 
-
-  @override
-  NavigateParams fromJson(Map<String, dynamic> json) =>
-      NavigateParams.fromJson(json);
-
   @override
   Future<Either<NavigationFailure, Unit>> execute(NavigateParams input) async {
     await Future.delayed(const Duration(seconds: 2));

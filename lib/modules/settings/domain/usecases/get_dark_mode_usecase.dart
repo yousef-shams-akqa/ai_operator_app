@@ -12,9 +12,6 @@ class GetDarkModeUseCase
   final UserPreferencesRepository _repository;
 
   @override
-  NoParams fromJson(Map<String, dynamic> json) => NoParams.fromJson(json);
-
-  @override
   Future<Either<UserPreferencesFailure, DarkModeOutput>> execute(
     NoParams input,
   ) async {

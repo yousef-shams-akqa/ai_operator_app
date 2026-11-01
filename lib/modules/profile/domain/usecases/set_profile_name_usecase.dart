@@ -13,10 +13,6 @@ class SetProfileNameUseCase
   final UserPreferencesRepository _repository;
 
   @override
-  SetProfileNameParams fromJson(Map<String, dynamic> json) =>
-      SetProfileNameParams.fromJson(json);
-
-  @override
   Future<Either<UserPreferencesFailure, Unit>> execute(
     SetProfileNameParams input,
   ) async {

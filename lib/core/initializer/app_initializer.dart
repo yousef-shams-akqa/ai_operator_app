@@ -1,7 +1,9 @@
-import 'package:ai_operator_app/core/ai/action_handler/ai_action_handler_impl.dart';
+import 'package:ai_operator_app/core/action_handler/ai_action_handler_impl.dart';
 import 'package:ai_operator_app/core/ai/constants/ai_constants.dart';
 import 'package:ai_operator_app/core/ai/models/ai_configuration.dart';
-import 'package:ai_operator_app/core/ai/service/gemini/gemini_ai_service.dart';
+import 'package:ai_operator_app/core/ai/models/ai_provider.dart';
+import 'package:ai_operator_app/core/ai/service/ai_service.dart';
+import 'package:ai_operator_app/core/ai/service/ai_service_factory.dart';
 import 'package:ai_operator_app/core/data/repositories/user_preferences_repository_impl.dart';
 import 'package:ai_operator_app/core/domain/repositories/user_preferences_repository.dart';
 import 'package:ai_operator_app/core/domain/models/no_params.dart';
@@ -12,7 +14,6 @@ import 'package:ai_operator_app/modules/profile/domain/usecases/set_profile_name
 import 'package:ai_operator_app/modules/settings/domain/usecases/get_dark_mode_usecase.dart';
 import 'package:ai_operator_app/modules/settings/domain/usecases/set_dark_mode_usecase.dart';
 import 'package:ai_operator_app/shared/ai/ai_functions_definitions_list.dart';
-import 'package:ai_operator_app/shared/constants/app_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ai_operator_app/core/firebase/app_check_setup.dart';
 import 'package:ai_operator_app/core/storage/app_preferences.dart';
@@ -42,9 +43,12 @@ class AppInitializer {
   }
 
 
+  /// The AI service the app uses. Set by [initializeAI].
+  static late final AIService aiService;
+
   static Future<void> initializeAI() async {
-    GeminiAIService.initialize(
-      modelName: AppConstants.geminiModel,
+    aiService = const AIServiceFactory().create(
+      provider: AIProvider.gemini,
       configuration: AIConfiguration(
         systemPrompt: AIConstants.systemPrompt,
         functionDefinitions: AIFunctionsDefinitionsList.all,

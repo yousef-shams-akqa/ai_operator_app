@@ -12,9 +12,6 @@ class GetProfileNameUseCase
   final UserPreferencesRepository _repository;
 
   @override
-  NoParams fromJson(Map<String, dynamic> json) => NoParams.fromJson(json);
-
-  @override
   Future<Either<UserPreferencesFailure, ProfileNameOutput>> execute(
     NoParams input,
   ) async {

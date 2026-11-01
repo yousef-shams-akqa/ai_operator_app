@@ -268,9 +268,10 @@ allow-list in `AiActionHandlerImpl`. Gemma 4 function calling requires a
 
 This project already has an `AIService` interface and a `SendAiRequestUsecase`.
 Implement a local service that satisfies the same interface, then select that
-service in the app's dependency setup. The current startup directly injects
-`GeminiAIService` in `lib/main.dart`; the chat page does not need to know which
-provider generated the response.
+service in the app's dependency setup. Today `AppInitializer.initializeAI()`
+builds the service with `AIServiceFactory` (Gemini) and `lib/main.dart` injects
+`AppInitializer.aiService`; the chat page does not need to know which provider
+generated the response.
 
 The current `ChatMessage` stores only user and assistant text. If the local
 service creates a fresh chat for every request, map and restore history

@@ -10,6 +10,12 @@ import 'package:ai_operator_app/core/ai/service/openai/openai_ai_service.dart';
 class AIServiceFactory {
   const AIServiceFactory();
 
+  /// Builds the service for [provider]. A blank [modelName] uses the
+  /// provider's default.
+  ///
+  /// [apiKey] is required for OpenAI and Claude (throws [StateError] if it is
+  /// missing) and ignored for Gemini, which authenticates through Firebase.
+  /// Every call returns a new service; keep the one the app should use.
   AIService create({
     required AIProvider provider,
     required AIConfiguration configuration,
@@ -19,7 +25,7 @@ class AIServiceFactory {
   }) {
     final isValidModelName = modelName?.trim().isNotEmpty ?? false;
     return switch (provider) {
-      AIProvider.gemini => GeminiAIService.initialize(
+      AIProvider.gemini => GeminiAIService(
         modelName: isValidModelName ? modelName!.trim() : AIProvider.gemini.defaultModelName,
         configuration: configuration,
         actionHandler: actionHandler,

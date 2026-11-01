@@ -1,11 +1,16 @@
 import 'package:ai_operator_app/core/ai/models/function_definition.dart';
-import 'package:ai_operator_app/core/ai/interfaces/function_definition_mapper.dart';
 
 /// Maps app definitions to a provider-neutral JSON function representation.
-class JsonSchemaFunctionDefinitionMapper implements FunctionDefinitionMapper<Map<String, dynamic>> {
+///
+/// Each item is `{name, description, parameters}`, where `parameters` is a
+/// JSON Schema object. Every parameter not listed in
+/// `FunctionDefinition.optionalParameters` is marked required. Each provider
+/// service wraps the item in its own tool envelope (OpenAI adds `type`, Claude
+/// renames `parameters` to `input_schema`, Gemini sends it as
+/// `parametersJsonSchema`).
+class JsonSchemaFunctionDefinitionMapper {
   const JsonSchemaFunctionDefinitionMapper();
 
-  @override
   List<Map<String, dynamic>> toolsFromDefinitions(
     List<FunctionDefinition> definitions,
   ) {

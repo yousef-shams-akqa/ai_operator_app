@@ -14,6 +14,10 @@ action handler at composition time.
   the provider, model ID, runtime key, AI configuration, and action handler
   supplied by the caller.
 - Call the resulting `AIService.send()` through the existing AI use case.
+- The app builds its one service in `AppInitializer.initializeAI()` (currently
+  Gemini) and `main.dart` injects `AppInitializer.aiService`. No provider is a
+  singleton; `create()` returns a new service every call, so whoever builds it
+  owns it. To switch provider, change the `provider` passed there.
 
 Example core-layer construction:
 
