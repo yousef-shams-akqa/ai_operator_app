@@ -1,7 +1,7 @@
 
-import 'package:ai_operator_app/core/ai/models/ai_configuration.dart';
-import 'package:ai_operator_app/core/ai/interfaces/ai_action_handler.dart';
-import 'package:ai_operator_app/core/ai/models/chat_message.dart';
+import '../models/ai_configuration.dart';
+import 'ai_action_handler.dart';
+import '../models/chat_message.dart';
 
 /// One AI provider (Gemini, OpenAI, or Claude) behind a single contract.
 ///

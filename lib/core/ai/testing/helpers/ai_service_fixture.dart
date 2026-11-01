@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:ai_operator_app/core/ai/interfaces/ai_action_handler.dart';
-import 'package:ai_operator_app/core/ai/models/ai_configuration.dart';
-import 'package:ai_operator_app/core/ai/models/ai_provider.dart';
-import 'package:ai_operator_app/core/ai/models/function_call_response.dart';
-import 'package:ai_operator_app/core/ai/models/function_definition.dart';
-import 'package:ai_operator_app/core/ai/service/ai_provider_client.dart';
-import 'package:ai_operator_app/core/ai/service/ai_service.dart';
-import 'package:ai_operator_app/core/ai/service/claude/claude_ai_service.dart';
-import 'package:ai_operator_app/core/ai/service/gemini/gemini_ai_service.dart';
-import 'package:ai_operator_app/core/ai/service/openai/openai_ai_service.dart';
+import '../../../../../packages/flutter_ai_operator/lib/src/interfaces/ai_action_handler.dart';
+import '../../../../../packages/flutter_ai_operator/lib/src/models/ai_configuration.dart';
+import '../../../../../packages/flutter_ai_operator/lib/src/models/ai_provider.dart';
+import '../../../../../packages/flutter_ai_operator/lib/src/models/function_call_response.dart';
+import '../../../../../packages/flutter_ai_operator/lib/src/models/function_definition.dart';
+import '../../../../../packages/flutter_ai_operator/lib/src/service/ai_provider_client.dart';
+import '../../../../../packages/flutter_ai_operator/lib/src/service/ai_service.dart';
+import '../../../../../packages/flutter_ai_operator/lib/src/service/claude/claude_ai_service.dart';
+import '../../../../../packages/flutter_ai_operator/lib/src/service/gemini/gemini_ai_service.dart';
+import '../../../../../packages/flutter_ai_operator/lib/src/service/openai/openai_ai_service.dart';
 import 'package:either_dart/either.dart';
 // The final SDK model requires its test factory to replace the transport.
 // ignore: implementation_imports

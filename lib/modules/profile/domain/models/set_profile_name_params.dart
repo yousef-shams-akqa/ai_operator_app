@@ -1,4 +1,4 @@
-import 'package:ai_operator_app/core/ai/models/function_definition.dart';
+import '../../../../../packages/flutter_ai_operator/lib/src/models/function_definition.dart';
 
 final class SetProfileNameParams {
   const SetProfileNameParams({required this.name});

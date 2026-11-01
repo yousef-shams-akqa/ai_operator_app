@@ -1,4 +1,4 @@
-import 'package:ai_operator_app/core/ai/service/ai_provider_client.dart';
+import '../../../../packages/flutter_ai_operator/lib/src/service/ai_provider_client.dart';
 import 'package:dio/dio.dart';
 // Tests intentionally live under lib; flutter_test remains a dev dependency.
 // ignore: depend_on_referenced_packages

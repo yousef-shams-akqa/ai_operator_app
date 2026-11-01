@@ -1,4 +1,4 @@
-import 'package:ai_operator_app/core/ai/constants/ai_constants.dart';
+import '../constants/ai_constants.dart';
 import 'function_definition.dart';
 
 /// Runtime configuration for an AI session: instructions and available tools.

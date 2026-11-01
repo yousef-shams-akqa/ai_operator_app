@@ -1,6 +1,6 @@
-import 'package:ai_operator_app/core/ai/models/function_call_response.dart';
-import 'package:ai_operator_app/core/ai/interfaces/ai_action_handler.dart';
-import 'package:ai_operator_app/core/ai/interfaces/ai_executable_action.dart';
+import '../../../packages/flutter_ai_operator/lib/src/models/function_call_response.dart';
+import '../../../packages/flutter_ai_operator/lib/src/interfaces/ai_action_handler.dart';
+import '../../../packages/flutter_ai_operator/lib/src/interfaces/ai_executable_action.dart';
 import 'package:ai_operator_app/core/domain/models/navigate_params.dart';
 import 'package:ai_operator_app/core/domain/models/no_params.dart';
 import 'package:ai_operator_app/core/domain/usecases/navigate_usecase.dart';

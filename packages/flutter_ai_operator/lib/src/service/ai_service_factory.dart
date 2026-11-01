@@ -1,10 +1,10 @@
-import 'package:ai_operator_app/core/ai/interfaces/ai_action_handler.dart';
-import 'package:ai_operator_app/core/ai/models/ai_configuration.dart';
-import 'package:ai_operator_app/core/ai/models/ai_provider.dart';
-import 'package:ai_operator_app/core/ai/service/ai_service.dart';
-import 'package:ai_operator_app/core/ai/service/claude/claude_ai_service.dart';
-import 'package:ai_operator_app/core/ai/service/gemini/gemini_ai_service.dart';
-import 'package:ai_operator_app/core/ai/service/openai/openai_ai_service.dart';
+import '../interfaces/ai_action_handler.dart';
+import '../models/ai_configuration.dart';
+import '../models/ai_provider.dart';
+import '../interfaces/ai_service.dart';
+import 'claude/claude_ai_service.dart';
+import 'gemini/gemini_ai_service.dart';
+import 'openai/openai_ai_service.dart';
 
 /// Creates a provider-specific [AIService] from runtime configuration.
 class AIServiceFactory {

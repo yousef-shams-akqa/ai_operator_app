@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:ai_operator_app/core/ai/constants/ai_constants.dart';
-import 'package:ai_operator_app/core/ai/interfaces/ai_action_handler.dart';
-import 'package:ai_operator_app/core/ai/models/ai_configuration.dart';
-import 'package:ai_operator_app/core/ai/models/chat_message.dart';
-import 'package:ai_operator_app/core/ai/models/function_call_response.dart';
-import 'package:ai_operator_app/core/ai/service/ai_provider_client.dart';
-import 'package:ai_operator_app/core/ai/service/ai_service.dart';
-import 'package:ai_operator_app/core/ai/helpers/json_schema_function_definition_mapper.dart';
-import 'package:ai_operator_app/core/ai/failures/ai_provider_failure.dart';
+import '../../constants/ai_constants.dart';
+import '../../interfaces/ai_action_handler.dart';
+import '../../models/ai_configuration.dart';
+import '../../models/chat_message.dart';
+import '../../models/function_call_response.dart';
+import '../shared/ai_provider_client.dart';
+import '../../interfaces/ai_service.dart';
+import '../../helpers/json_schema_function_definition_mapper.dart';
+import '../../failures/ai_provider_failure.dart';
 import 'package:dio/dio.dart';
 
 /// Talks to the Claude Messages API and runs its tool-use loop.

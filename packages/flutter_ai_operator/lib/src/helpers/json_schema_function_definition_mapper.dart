@@ -1,4 +1,4 @@
-import 'package:ai_operator_app/core/ai/models/function_definition.dart';
+import '../models/function_definition.dart';
 
 /// Maps app definitions to a provider-neutral JSON function representation.
 ///

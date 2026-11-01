@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 ///
 /// The result of [getRouterContext] is passed as `appContext` and appended to
 /// the user's request, so the model can pick correct navigation targets.
-extension AppRouterContext on GoRouter {
+extension GoRouterStateContext on GoRouter {
   /// Current active navigation stack.
   /// Example: '/home → /home/settings → /home/settings/profile'
   String currentStack() {

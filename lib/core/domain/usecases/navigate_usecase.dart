@@ -1,4 +1,4 @@
-import 'package:ai_operator_app/core/ai/interfaces/ai_executable_action.dart';
+import '../../../../packages/flutter_ai_operator/lib/src/interfaces/ai_executable_action.dart';
 import 'package:ai_operator_app/core/navigation/app_routes.dart';
 import 'package:ai_operator_app/core/domain/failures/navigation_failure.dart';
 import 'package:ai_operator_app/core/domain/models/unit.dart';

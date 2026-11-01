@@ -1,4 +1,4 @@
-import 'package:ai_operator_app/core/ai/helpers/app_router_context.dart';
+import '../../../../packages/flutter_ai_operator/lib/src/helpers/app_router_context.dart';
 import 'package:flutter/widgets.dart';
 // Tests intentionally live under lib; flutter_test remains a dev dependency.
 // ignore: depend_on_referenced_packages

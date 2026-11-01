@@ -1,9 +1,9 @@
 import 'package:ai_operator_app/core/action_handler/ai_action_handler_impl.dart';
-import 'package:ai_operator_app/core/ai/constants/ai_constants.dart';
-import 'package:ai_operator_app/core/ai/models/ai_configuration.dart';
-import 'package:ai_operator_app/core/ai/models/ai_provider.dart';
-import 'package:ai_operator_app/core/ai/service/ai_service.dart';
-import 'package:ai_operator_app/core/ai/service/ai_service_factory.dart';
+import '../../../packages/flutter_ai_operator/lib/src/constants/ai_constants.dart';
+import '../../../packages/flutter_ai_operator/lib/src/models/ai_configuration.dart';
+import '../../../packages/flutter_ai_operator/lib/src/models/ai_provider.dart';
+import '../../../packages/flutter_ai_operator/lib/src/service/ai_service.dart';
+import '../../../packages/flutter_ai_operator/lib/src/service/ai_service_factory.dart';
 import 'package:ai_operator_app/core/data/repositories/user_preferences_repository_impl.dart';
 import 'package:ai_operator_app/core/domain/repositories/user_preferences_repository.dart';
 import 'package:ai_operator_app/core/domain/models/no_params.dart';
