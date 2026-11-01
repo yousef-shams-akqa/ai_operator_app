@@ -1,16 +1,19 @@
-
 import 'package:flutter_ai_operator/flutter_ai_operator.dart';
-import 'package:either_dart/either.dart';
 
 class SendAiRequestUsecase {
   final AIService aiService;
 
   SendAiRequestUsecase({required this.aiService});
 
-  Future<Either<Error, String>> call(String requestForAI, List<ChatMessage> chatHistory, {String? appContext}) async {
+  Future<Either<Error, String>> call(
+    List<ChatMessage> messages, {
+    String? appContext,
+  }) async {
     try {
-      final response = await aiService.send(requestForAI, chatHistory, appContext: appContext);
+      final response = await aiService.send(messages, appContext: appContext);
       return Right(response);
+    } on AIProviderFailure catch (failure) {
+      return Left(failure);
     } catch (e) {
       return Left(StateError(e.toString()));
     }

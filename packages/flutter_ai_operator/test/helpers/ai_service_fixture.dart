@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_ai_operator/flutter_ai_operator.dart';
-import 'package:either_dart/either.dart';
 // The final SDK model requires its test factory to replace the transport.
 // ignore: implementation_imports
 import 'package:firebase_ai/src/base_model.dart' show createModelWithClient;
@@ -155,6 +154,28 @@ class AIServiceFixture {
     AIProvider.gemini => {'candidates': []},
   };
 
+  /// Normalizes the first outgoing request so contract tests cover every adapter.
+  List<Map<String, dynamic>> get sentMessages {
+    final body = requests.first;
+    return switch (provider) {
+      AIProvider.openAI => List<Map<String, dynamic>>.from(
+        body['input'] as List,
+      ),
+      AIProvider.claude => List<Map<String, dynamic>>.from(
+        body['messages'] as List,
+      ),
+      AIProvider.gemini => [
+        for (final content in body['contents'] as List)
+          {
+            'role': content['role'] == 'model' ? 'assistant' : 'user',
+            'content': (content['parts'] as List)
+                .map((part) => part['text'] as String)
+                .join(),
+          },
+      ],
+    };
+  }
+
   // Read the tool payload from the actual follow-up request. Missing or
   // malformed output fails the test rather than being replaced with a default.
   Map<String, dynamic> get toolResult {
@@ -162,9 +183,9 @@ class AIServiceFixture {
     return switch (provider) {
       AIProvider.openAI =>
         jsonDecode(body['input'].single['output']) as Map<String, dynamic>,
-      AIProvider.claude =>
-        jsonDecode(body['messages'].last['content'].single['content'])
-            as Map<String, dynamic>,
+      AIProvider.claude => jsonDecode(
+        body['messages'].last['content'].single['content'],
+      ) as Map<String, dynamic>,
       AIProvider.gemini =>
         body['contents'].last['parts'].single['functionResponse']['response']
             as Map<String, dynamic>,

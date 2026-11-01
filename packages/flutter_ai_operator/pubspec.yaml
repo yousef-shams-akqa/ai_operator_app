@@ -2,8 +2,8 @@ name: flutter_ai_operator
 description: >-
   Build in-app AI agents in Flutter with one chat API for Gemini, OpenAI, and
   Claude—function calling, typed errors, and optional GoRouter navigation context.
-version: 1.0.0
-homepage:
+version: 0.1.0
+homepage: 
 
 environment:
   sdk: ^3.13.7

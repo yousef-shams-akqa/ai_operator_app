@@ -1,5 +1,4 @@
-/// An AI provider (Gemini, OpenAI, or Claude) request failed or returned
-/// something unusable.
+/// An AI request has invalid input, failed, or returned something unusable.
 ///
 /// Throw one of the subclasses below instead of this class directly.
 class AIProviderFailure extends Error {
@@ -45,4 +44,9 @@ class AIProviderEmptyResponseFailure extends AIProviderFailure {
 /// The response body was not the JSON shape the provider documents.
 class AIProviderInvalidResponseFailure extends AIProviderFailure {
   AIProviderInvalidResponseFailure() : super(1004, 'INVALID_RESPONSE');
+}
+
+/// The conversation is empty or does not end with a non-blank user message.
+class AIProviderInvalidInputFailure extends AIProviderFailure {
+  AIProviderInvalidInputFailure() : super(1005, 'INVALID_INPUT');
 }

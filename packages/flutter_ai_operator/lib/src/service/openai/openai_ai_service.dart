@@ -8,7 +8,9 @@ import '../../models/function_call_response.dart';
 import '../shared/ai_provider_client.dart';
 import '../../interfaces/ai_service.dart';
 import '../../helpers/json_schema_function_definition_mapper.dart';
+import '../../helpers/prepare_chat_messages.dart';
 import '../../failures/ai_provider_failure.dart';
+
 import 'package:dio/dio.dart';
 
 /// Talks to the OpenAI Responses API and runs its function-call loop.
@@ -40,11 +42,11 @@ class OpenAIService implements AIService {
   final AiActionHandler actionHandler;
 
   @override
-  Future<String> send(
-    String requestForAI,
-    List<ChatMessage> chatHistory, {
-    String? appContext,
-  }) async {
+  Future<String> send(List<ChatMessage> messages, {String? appContext}) async {
+    final requestMessages = prepareChatMessages(
+      messages,
+      appContext: appContext,
+    );
     final tools = _functionMapper
         .toolsFromDefinitions(configuration.functionDefinitions)
         .map(_toolFor)
@@ -53,12 +55,11 @@ class OpenAIService implements AIService {
     // The first round sends the conversation; later rounds only send function
     // outputs and continue the same response chain.
     Object input = [
-      for (final message in chatHistory)
+      for (final message in requestMessages)
         {
           'role': message.type == ChatMessageType.user ? 'user' : 'assistant',
           'content': message.message,
         },
-      {'role': 'user', 'content': requestForAI + (appContext ?? '')},
     ];
     String? previousResponseId;
 

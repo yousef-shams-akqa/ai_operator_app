@@ -5,7 +5,9 @@ import '../../models/function_call_response.dart';
 import '../../interfaces/ai_action_handler.dart';
 import '../../interfaces/ai_service.dart';
 import '../../helpers/json_schema_function_definition_mapper.dart';
+import '../../helpers/prepare_chat_messages.dart';
 import '../../failures/ai_provider_failure.dart';
+
 import 'package:firebase_ai/firebase_ai.dart';
 
 /// Talks to Gemini through the Firebase AI SDK, which runs the chat session.
@@ -29,23 +31,41 @@ class GeminiAIService implements AIService {
 
   static const _functionDefinitionMapper = JsonSchemaFunctionDefinitionMapper();
 
-  static GenerativeModel _createModel(String modelName, AIConfiguration configuration) {
-    final definitions = _functionDefinitionMapper.toolsFromDefinitions(configuration.functionDefinitions);
+  static GenerativeModel _createModel(
+    String modelName,
+    AIConfiguration configuration,
+  ) {
+    final definitions = _functionDefinitionMapper.toolsFromDefinitions(
+      configuration.functionDefinitions,
+    );
     return FirebaseAI.googleAI().generativeModel(
       model: modelName,
       systemInstruction: Content.text(configuration.systemPrompt),
-      tools: definitions.isEmpty ? null
-          : [Tool.functionDeclarations(definitions.map(_JsonFunctionDeclaration.new).toList())],
+      tools: definitions.isEmpty
+          ? null
+          : [
+              Tool.functionDeclarations(
+                definitions.map(_JsonFunctionDeclaration.new).toList(),
+              ),
+            ],
     );
   }
 
   @override
-  Future<String> send(String requestForAI, List<ChatMessage> chatHistory, {String? appContext}) async {
+  Future<String> send(List<ChatMessage> messages, {String? appContext}) async {
+    final requestMessages = prepareChatMessages(
+      messages,
+      appContext: appContext,
+    );
     try {
-      final chatHistoryContent = chatHistory.map(chatMessageToModelContent).toList();
+      final chatHistoryContent = requestMessages
+          .take(requestMessages.length - 1)
+          .map(chatMessageToModelContent)
+          .toList();
       final aiModelChat = model.startChat(history: chatHistoryContent);
-      final textMessageForAI = requestForAI + (appContext ?? '');
-      var aiResponse = await aiModelChat.sendMessage(Content.text(textMessageForAI));
+      var aiResponse = await aiModelChat.sendMessage(
+        Content.text(requestMessages.last.message),
+      );
 
       for (var round = 0; aiResponse.functionCalls.isNotEmpty; round++) {
         if (round >= AIConstants.maxToolRounds) {
@@ -54,7 +74,10 @@ class GeminiAIService implements AIService {
         final functionResponseParts = <FunctionResponse>[];
 
         for (final call in aiResponse.functionCalls) {
-          final functionCallResponse = FunctionCallResponse(call.name, call.args);
+          final functionCallResponse = FunctionCallResponse(
+            call.name,
+            call.args,
+          );
           final actionResult = await actionHandler.handle(functionCallResponse);
           final actionResultPayload = actionResult.fold(
             (error) => {'error': error.toString()},
@@ -66,7 +89,9 @@ class GeminiAIService implements AIService {
           );
         }
 
-        aiResponse = await aiModelChat.sendMessage(Content.functionResponses(functionResponseParts));
+        aiResponse = await aiModelChat.sendMessage(
+          Content.functionResponses(functionResponseParts),
+        );
       }
 
       return aiResponse.text ?? (throw AIProviderEmptyResponseFailure());
@@ -98,7 +123,8 @@ class _JsonFunctionDeclaration extends FunctionDeclaration {
   static const _parametersKey = 'parameters';
   static const _parametersJsonSchemaKey = 'parametersJsonSchema';
 
-  _JsonFunctionDeclaration(this._definition) : super(
+  _JsonFunctionDeclaration(this._definition)
+    : super(
         _definition[_nameKey] as String,
         _definition[_descriptionKey] as String,
         parameters: const {},

@@ -1,3 +1,5 @@
+export 'package:either_dart/either.dart' show Either, Left, Right;
+
 export './src/failures/ai_provider_failure.dart';
 export './src/helpers/go_router_state_context.dart';
 export './src/interfaces/ai_action_handler.dart';
