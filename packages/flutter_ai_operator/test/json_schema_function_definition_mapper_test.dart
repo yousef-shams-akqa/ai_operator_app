@@ -1,5 +1,5 @@
-import '../lib/src/helpers/json_schema_function_definition_mapper.dart';
-import '../lib/src/models/function_definition.dart';
+import 'package:flutter_ai_operator/flutter_ai_operator.dart';
+import 'package:flutter_ai_operator/src/helpers/json_schema_function_definition_mapper.dart';
 // Tests intentionally live under lib; flutter_test remains a dev dependency.
 // ignore: depend_on_referenced_packages
 import 'package:flutter_test/flutter_test.dart';

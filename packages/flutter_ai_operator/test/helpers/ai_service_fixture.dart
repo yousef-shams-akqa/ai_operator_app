@@ -8,8 +8,6 @@ import 'package:firebase_ai/src/base_model.dart' show createModelWithClient;
 // ignore: implementation_imports
 import 'package:firebase_ai/src/client.dart' show ApiClient;
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_ai_operator/src/interfaces/ai_service.dart';
-import 'package:flutter_ai_operator/src/models/function_call_response.dart';
 import 'package:flutter_ai_operator/src/service/claude/claude_ai_service.dart';
 import 'package:flutter_ai_operator/src/service/gemini/gemini_ai_service.dart';
 import 'package:flutter_ai_operator/src/service/openai/openai_ai_service.dart';
