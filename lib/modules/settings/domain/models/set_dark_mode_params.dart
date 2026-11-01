@@ -1,4 +1,4 @@
-import '../../../../../packages/flutter_ai_operator/lib/src/models/function_definition.dart';
+import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 
 final class SetDarkModeParams {
   const SetDarkModeParams({required this.enabled});

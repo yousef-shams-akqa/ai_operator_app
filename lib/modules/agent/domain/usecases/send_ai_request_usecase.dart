@@ -1,6 +1,5 @@
 
-import '../../../../../packages/flutter_ai_operator/lib/src/models/chat_message.dart';
-import '../../../../../packages/flutter_ai_operator/lib/src/service/ai_service.dart';
+import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 import 'package:either_dart/either.dart';
 
 class SendAiRequestUsecase {

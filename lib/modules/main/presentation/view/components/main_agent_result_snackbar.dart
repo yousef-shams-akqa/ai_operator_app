@@ -1,4 +1,4 @@
-import '../../../../../../packages/flutter_ai_operator/lib/src/models/chat_message.dart';
+import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_state.dart';
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_viewmodel.dart';
 import 'package:ai_operator_app/shared/components/app_snackbar.dart';

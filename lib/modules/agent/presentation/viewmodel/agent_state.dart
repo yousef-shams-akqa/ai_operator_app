@@ -1,4 +1,4 @@
-import '../../../../../packages/flutter_ai_operator/lib/src/models/chat_message.dart';
+import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 
 sealed class AgentState {
   final List<ChatMessage> chatMessages;

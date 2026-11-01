@@ -1,4 +1,4 @@
-import '../../../../../packages/flutter_ai_operator/lib/src/interfaces/ai_executable_action.dart';
+import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 import 'package:ai_operator_app/core/domain/failures/user_preferences_failure.dart';
 import 'package:ai_operator_app/core/domain/models/profile_name_output.dart';
 import 'package:ai_operator_app/core/domain/repositories/user_preferences_repository.dart';

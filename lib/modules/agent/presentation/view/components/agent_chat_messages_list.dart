@@ -1,4 +1,4 @@
-import '../../../../../../packages/flutter_ai_operator/lib/src/models/chat_message.dart';
+import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 import 'package:ai_operator_app/modules/agent/presentation/view/components/agent_chat_message_bubble.dart';
 import 'package:ai_operator_app/shared/constants/app_constants.dart';
 import 'package:ai_operator_app/shared/theme/app_sizes.dart';

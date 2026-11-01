@@ -130,7 +130,7 @@ packages:
     source: hosted
     version: "7.0.1"
   firebase_ai:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: firebase_ai
       sha256: "553e67c34daa51a3b9917d6431de71eab42a3f88110315d0819d4a006185453d"
@@ -214,6 +214,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_ai_operator:
+    dependency: "direct main"
+    description:
+      path: "packages/flutter_ai_operator"
+      relative: true
+    source: path
+    version: "1.0.0"
   flutter_bloc:
     dependency: "direct main"
     description:
@@ -582,5 +589,5 @@ packages:
     source: hosted
     version: "1.1.0"
 sdks:
-  dart: ">=3.11.0-0 <4.0.0"
+  dart: ">=3.13.7 <4.0.0"
   flutter: ">=3.38.0"

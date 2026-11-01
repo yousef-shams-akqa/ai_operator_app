@@ -1,4 +1,4 @@
-import '../../../packages/flutter_ai_operator/lib/src/models/function_definition.dart';
+import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 import 'package:ai_operator_app/core/navigation/app_routes.dart';
 import 'package:ai_operator_app/modules/profile/domain/models/set_profile_name_params.dart';
 import 'package:ai_operator_app/modules/settings/domain/models/set_dark_mode_params.dart';

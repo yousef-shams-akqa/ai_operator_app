@@ -1,8 +1,7 @@
-import '../../../../../packages/flutter_ai_operator/lib/src/models/chat_message.dart';
+import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 import 'package:ai_operator_app/modules/agent/domain/usecases/send_ai_request_usecase.dart';
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../packages/flutter_ai_operator/lib/src/helpers/app_router_context.dart';
 import 'package:go_router/go_router.dart';
 
 class AgentViewmodel extends Cubit<AgentState> {
