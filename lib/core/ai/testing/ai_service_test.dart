@@ -1,6 +1,6 @@
 import 'package:ai_operator_app/core/ai/constants/ai_constants.dart';
 import 'package:ai_operator_app/core/ai/models/ai_provider.dart';
-import 'package:ai_operator_app/core/domain/failures/ai_provider_failure.dart';
+import 'package:ai_operator_app/core/ai/failures/ai_provider_failure.dart';
 import 'package:either_dart/either.dart';
 // Tests intentionally live under lib; flutter_test remains a dev dependency.
 // ignore: depend_on_referenced_packages

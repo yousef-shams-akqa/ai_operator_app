@@ -5,7 +5,7 @@ import 'package:ai_operator_app/core/ai/models/function_call_response.dart';
 import 'package:ai_operator_app/core/ai/interfaces/ai_action_handler.dart';
 import 'package:ai_operator_app/core/ai/service/ai_service.dart';
 import 'package:ai_operator_app/core/ai/helpers/json_schema_function_definition_mapper.dart';
-import 'package:ai_operator_app/core/domain/failures/ai_provider_failure.dart';
+import 'package:ai_operator_app/core/ai/failures/ai_provider_failure.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 
 /// Talks to Gemini through the Firebase AI SDK, which runs the chat session.
