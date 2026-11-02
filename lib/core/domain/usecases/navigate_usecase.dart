@@ -1,3 +1,6 @@
+import 'dart:async' show Completer;
+
+import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 import 'package:ai_operator_app/core/navigation/app_routes.dart';
 import 'package:ai_operator_app/core/domain/failures/navigation_failure.dart';
@@ -11,9 +14,16 @@ class NavigateUseCase implements AiExecutableAction<NavigateParams, Unit, Naviga
 
   final GoRouter _router;
 
+  Completer<void>? _completer;
+
+  // Wait at least 2 seconds before navigating again
+  final waitAtLeast = const Duration(seconds: 2);
+
   @override
   Future<Either<NavigationFailure, Unit>> execute(NavigateParams input) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await _completer?.future;
+    if(_completer?.isCompleted == true || _completer == null) _completer = Completer<void>();
+    if(kDebugMode) debugPrint('[NavigateUseCase] ${DateTime.now().toIso8601String()} execute: NavigateParams(location: ${input.location}, extra: ${input.extra})');
     final router = _router;
     try {
       if (input.pop) {
@@ -33,6 +43,10 @@ class NavigateUseCase implements AiExecutableAction<NavigateParams, Unit, Naviga
         router.go(location, extra: input.extra);
       }
 
+      // Wait at least 2 seconds before navigating again
+      Future.delayed(waitAtLeast, () {
+        if(_completer?.isCompleted != true) _completer?.complete();
+      });
       return const Right(Unit.unit);
     } catch (error, stackTrace) {
       return Left(

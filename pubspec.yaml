@@ -42,9 +42,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   either_dart: ^1.0.0
   flutter_markdown_plus: ^1.0.12
-  flutter_ai_operator:
-    git:
-      url: https://github.com/yousef-shams-akqa/flutter_ai_operator
+  flutter_ai_operator: ^0.1.2
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 import 'package:flutter_ai_operator/flutter_ai_operator.dart';
 import 'package:ai_operator_app/core/domain/models/navigate_params.dart';
 import 'package:ai_operator_app/core/domain/models/no_params.dart';
@@ -20,6 +21,7 @@ class AiActionHandlerImpl extends AiActionHandler {
 
   @override
   Future<Either<Error, String>> handle(FunctionCallResponse response) async {
+    if(kDebugMode) debugPrint('[AiActionHandlerImpl] ${DateTime.now().toIso8601String()} handle: FunctionCallResponse(functionName: ${response.functionName}, functionArgs: ${response.functionArgs})');
     final function = AIFunctionName.tryParse(response.functionName);
     if (function == null) {
       return Left(StateError('Unknown function: ${response.functionName}'));

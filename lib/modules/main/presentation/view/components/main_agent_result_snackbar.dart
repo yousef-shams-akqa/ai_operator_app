@@ -1,4 +1,6 @@
+import 'package:ai_operator_app/core/navigation/app_router.dart';
 import 'package:flutter_ai_operator/flutter_ai_operator.dart';
+import 'package:ai_operator_app/core/navigation/app_routes.dart';
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_state.dart';
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_viewmodel.dart';
 import 'package:ai_operator_app/shared/components/app_snackbar.dart';
@@ -16,7 +18,13 @@ class MainAgentResultSnackBar {
         (current is AgentLoaded || current is AgentError);
   }
 
+  static bool isAgentPageOpen(BuildContext context) {
+    final topMatch = appRouter.routerDelegate.currentConfiguration.lastOrNull;
+    return topMatch?.matchedLocation == AppRoutes.agent;
+  }
+
   static void handleAgentState(BuildContext context, AgentState state) {
+    if (isAgentPageOpen(context)) { return; }
     if (state is AgentError) {
       AppSnackBar.showError(context, state.error.toString());
       return;
