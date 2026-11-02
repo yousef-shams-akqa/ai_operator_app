@@ -10,10 +10,8 @@ import 'package:ai_operator_app/modules/profile/domain/usecases/set_profile_name
 import 'package:ai_operator_app/modules/settings/domain/usecases/get_dark_mode_usecase.dart';
 import 'package:ai_operator_app/modules/settings/domain/usecases/set_dark_mode_usecase.dart';
 import 'package:ai_operator_app/shared/ai/ai_functions_definitions_list.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:ai_operator_app/core/storage/app_preferences.dart';
 import 'package:flutter/material.dart';
-import '../../firebase_options.dart';
 
 ValueNotifier<ThemeMode> appThemeMode = ValueNotifier<ThemeMode>(ThemeMode.light);
 
@@ -22,7 +20,6 @@ class AppInitializer {
       UserPreferencesRepositoryImpl(AppPreferences());
 
   static Future<void> initialize() async {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     await AppPreferences.initialize();
     final themeMode = await loadThemeMode();
     appThemeMode.value = themeMode;

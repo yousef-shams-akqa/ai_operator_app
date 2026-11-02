@@ -1,4 +1,5 @@
 import 'package:ai_operator_app/shared/constants/app_strings.dart';
+import 'package:ai_operator_app/shared/theme/app_colors.dart';
 import 'package:ai_operator_app/shared/theme/app_sizes.dart';
 import 'package:ai_operator_app/shared/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,14 @@ class _AgentChatInputState extends State<AgentChatInput> {
   final TextEditingController textController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    textController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
   void dispose() {
     textController.dispose();
     super.dispose();
@@ -24,7 +33,7 @@ class _AgentChatInputState extends State<AgentChatInput> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-
+    final isEnabled = !widget.isLoading && textController.text.trim().isNotEmpty;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -47,13 +56,17 @@ class _AgentChatInputState extends State<AgentChatInput> {
             decoration: InputDecoration(
               hintText: AppStrings.agentMessageHint,
               suffixIcon: IconButton(
-                onPressed: widget.isLoading 
-                ? null 
+                onPressed: !isEnabled ? null 
                 : ()  {
                   widget.onSend(textController.text);
                   textController.clear();
                 },
-                icon: Icon(Icons.send, color: Theme.of(context).colorScheme.primary),
+                icon: Icon(
+                  Icons.send, 
+                  color: isEnabled 
+                  ? Theme.of(context).colorScheme.primary 
+                  : AppColors.textDisabled,
+                ),
               ),
             ),
           ),
