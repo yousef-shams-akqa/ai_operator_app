@@ -13,11 +13,13 @@ For a beginner walkthrough of extracting this code and publishing it, see
 ## Entry Points
 
 - `AIServiceFactory.create()` constructs the selected provider for normal use.
-- `AIService.send(messages, appContext: ...)` receives the full ordered
+- `AIService.send(messages)` receives the full ordered
   conversation, including the current user message as its final element.
 - `GeminiAIService` also accepts an optional SDK `GenerativeModel` so callers
   can supply a model with an offline transport.
-- `GoRouterStateContext.getRouterContext()` produces navigation context for a request.
+- `AIConfiguration.contextSources` in `AppInitializer.initializeAI()` lists the
+  live app state added to every request. It holds
+  `GoRouterContextSource(appRouter)`, which reports the current stack and routes.
 
 ## Flow
 
@@ -37,15 +39,22 @@ failures in its explicit result. `AgentViewmodel` owns chat state, pending
 request identity, success appends, and failure rollback. Late results are
 ignored after clearing or closing, and overlapping sends are ignored.
 
-Router context is derived from the supplied `GoRouter`. The context string
-calls `currentStack()` and `routeTree()` to include their evaluated values.
+The package reads every context source inside each `send()`, so the model sees
+the current navigation stack without the view model or use case passing it.
+`GoRouterContextSource` reads the same `appRouter` the app navigates with; the
+route tree is fixed when the router is created and only the stack changes. If a
+source throws, `send()` fails with `AIProviderContextFailure` and sends nothing.
+The context is read once per request, so it can be out of date for the later
+steps of a request in which the model navigates.
 
 ## Common Changes
 
 - Keep model injection optional so factory-created services retain their
   existing Firebase setup.
 - Keep navigation context derived from the router rather than storing a second
-  copy of navigation state.
+  copy of navigation state. Add other live state by implementing
+  `AppContextSource` and listing it in `contextSources`; do not build context in
+  view models.
 - Pass the complete conversation once. Keep validation and request copying in
   the package, and keep chat storage and presentation state in the app.
 

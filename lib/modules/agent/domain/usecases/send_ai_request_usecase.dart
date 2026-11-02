@@ -5,12 +5,9 @@ class SendAiRequestUsecase {
 
   SendAiRequestUsecase({required this.aiService});
 
-  Future<Either<Error, String>> call(
-    List<ChatMessage> messages, {
-    String? appContext,
-  }) async {
+  Future<Either<Error, String>> call(List<ChatMessage> messages) async {
     try {
-      final response = await aiService.send(messages, appContext: appContext);
+      final response = await aiService.send(messages);
       return Right(response);
     } on AIProviderFailure catch (failure) {
       return Left(failure);

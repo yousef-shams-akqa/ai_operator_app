@@ -3,32 +3,24 @@ import 'dart:async';
 import 'package:ai_operator_app/modules/agent/domain/usecases/send_ai_request_usecase.dart';
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_state.dart';
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_viewmodel.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app_copilot/flutter_app_copilot.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:go_router/go_router.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late GoRouter router;
   late _RecordingAIService ai;
   late AgentViewmodel viewmodel;
 
   setUp(() {
-    router = GoRouter(
-      routes: [GoRoute(path: '/', builder: (_, _) => const SizedBox())],
-    );
     ai = _RecordingAIService();
     viewmodel = AgentViewmodel(
       sendAiRequestUsecase: SendAiRequestUsecase(aiService: ai),
-      router: router,
     );
   });
 
   tearDown(() async {
     await viewmodel.close();
-    router.dispose();
   });
 
   test(
@@ -37,7 +29,6 @@ void main() {
       final first = viewmodel.sendMessage('Hello');
       expect(viewmodel.state, isA<AgentLoading>());
       expect(ai.requests.single.single.message, 'Hello');
-      expect(ai.contexts.single, contains('Route tree: /'));
       ai.replies.single.complete('Hi');
       await first;
 
@@ -138,13 +129,11 @@ void main() {
 
 class _RecordingAIService extends Fake implements AIService {
   final requests = <List<ChatMessage>>[];
-  final contexts = <String?>[];
   final replies = <Completer<String>>[];
 
   @override
-  Future<String> send(List<ChatMessage> messages, {String? appContext}) {
+  Future<String> send(List<ChatMessage> messages, {String? additionalContext}) {
     requests.add(List<ChatMessage>.unmodifiable(messages));
-    contexts.add(appContext);
     final reply = Completer<String>();
     replies.add(reply);
     return reply.future;

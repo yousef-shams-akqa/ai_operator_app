@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (_) => AgentViewmodel(
         sendAiRequestUsecase: SendAiRequestUsecase(aiService: AppInitializer.aiService),
-        router: appRouter,
       ),
       child: ValueListenableBuilder<ThemeMode>(
         valueListenable: appThemeMode,

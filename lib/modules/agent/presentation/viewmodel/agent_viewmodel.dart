@@ -2,14 +2,12 @@ import 'package:flutter_app_copilot/flutter_app_copilot.dart';
 import 'package:ai_operator_app/modules/agent/domain/usecases/send_ai_request_usecase.dart';
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class AgentViewmodel extends Cubit<AgentState> {
   final SendAiRequestUsecase sendAiRequestUsecase;
-  final GoRouter router;
   int _requestId = 0;
 
-  AgentViewmodel({required this.sendAiRequestUsecase, required this.router})
+  AgentViewmodel({required this.sendAiRequestUsecase})
     : super(AgentInitial(chatMessages: []));
 
   Future<void> sendMessage(String userMessage) async {
@@ -20,11 +18,7 @@ class AgentViewmodel extends Cubit<AgentState> {
     final newChatHistory = state.chatMessages + [ChatMessage.user(userMessage)];
 
     emit(AgentLoading(chatMessages: newChatHistory));
-    final appContext = router.getRouterContext();
-    final result = await sendAiRequestUsecase.call(
-      newChatHistory,
-      appContext: appContext,
-    );
+    final result = await sendAiRequestUsecase.call(newChatHistory);
     if (isClosed || requestId != _requestId) return;
 
     result.fold(

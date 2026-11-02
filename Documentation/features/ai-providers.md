@@ -13,7 +13,7 @@ action handler at composition time.
 - `AIServiceFactory.create()` creates a Gemini, OpenAI, or Claude service from
   the provider, model ID, runtime key, AI configuration, and action handler
   supplied by the caller.
-- Call `AIService.send(messages, appContext: ...)` through the AI use case.
+- Call `AIService.send(messages, additionalContext: ...)` through the AI use case when one-off extra context is needed.
   The ordered list includes the current user message as its final element.
 - The app builds its one service in `AppInitializer.initializeAI()` (currently
   Gemini) and `main.dart` injects `AppInitializer.aiService`. No provider is a

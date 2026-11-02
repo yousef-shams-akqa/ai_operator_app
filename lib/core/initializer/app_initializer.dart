@@ -42,6 +42,7 @@ class AppInitializer {
       apiKey: const String.fromEnvironment('AI_API_KEY'),
       configuration: AIConfiguration(
         functionDefinitions: AIFunctionsDefinitionsList.all,
+        contextSources: [GoRouterContextSource(appRouter)],
       ),
       actionHandler: AiActionHandlerImpl(
         actions: [
