@@ -1,7 +1,6 @@
 import 'dart:async' show Completer;
 
-import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
-import 'package:flutter_ai_operator/flutter_ai_operator.dart';
+import 'package:flutter_app_copilot/flutter_app_copilot.dart';
 import 'package:ai_operator_app/core/navigation/app_routes.dart';
 import 'package:ai_operator_app/core/domain/failures/navigation_failure.dart';
 import 'package:ai_operator_app/core/domain/models/unit.dart';
@@ -23,11 +22,9 @@ class NavigateUseCase implements AiExecutableAction<NavigateParams, Unit, Naviga
   Future<Either<NavigationFailure, Unit>> execute(NavigateParams input) async {
     await _completer?.future;
     if(_completer?.isCompleted == true || _completer == null) _completer = Completer<void>();
-    if(kDebugMode) debugPrint('[NavigateUseCase] ${DateTime.now().toIso8601String()} execute: NavigateParams(location: ${input.location}, extra: ${input.extra})');
-    final router = _router;
     try {
       if (input.pop) {
-        router.pop(input.popResult);
+        _router.pop(input.popResult);
         return const Right(Unit.unit);
       }
 
@@ -36,22 +33,22 @@ class NavigateUseCase implements AiExecutableAction<NavigateParams, Unit, Naviga
       // Tabs always switch with go. Pushing or replacing onto a tab duplicates
       // the shell's page key and crashes the Navigator.
       if (input.replace && !_isTabLocation(location)) {
-        router.replace(location, extra: input.extra);
+        _router.replace(location, extra: input.extra);
       } else if (input.push && !_isTabLocation(location)) {
-        router.push(location, extra: input.extra);
+        _router.push(location, extra: input.extra);
       } else {
-        router.go(location, extra: input.extra);
+        _router.go(location, extra: input.extra);
       }
-
-      // Wait at least 2 seconds before navigating again
-      Future.delayed(waitAtLeast, () {
-        if(_completer?.isCompleted != true) _completer?.complete();
-      });
       return const Right(Unit.unit);
     } catch (error, stackTrace) {
       return Left(
         NavigationFailure('Navigation failed', error, stackTrace),
       );
+    } finally {
+      // Wait at least 2 seconds before navigating again
+      Future.delayed(waitAtLeast, () {
+        if(_completer?.isCompleted != true) _completer?.complete();
+      });
     }
   }
 

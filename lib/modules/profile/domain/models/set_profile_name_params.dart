@@ -1,4 +1,4 @@
-import 'package:flutter_ai_operator/flutter_ai_operator.dart';
+import 'package:flutter_app_copilot/flutter_app_copilot.dart';
 
 final class SetProfileNameParams {
   const SetProfileNameParams({required this.name});

@@ -1,5 +1,5 @@
 import 'package:ai_operator_app/core/action_handler/ai_action_handler_impl.dart';
-import 'package:flutter_ai_operator/flutter_ai_operator.dart';
+import 'package:flutter_app_copilot/flutter_app_copilot.dart';
 import 'package:ai_operator_app/core/data/repositories/user_preferences_repository_impl.dart';
 import 'package:ai_operator_app/core/domain/repositories/user_preferences_repository.dart';
 import 'package:ai_operator_app/core/domain/models/no_params.dart';
@@ -11,7 +11,6 @@ import 'package:ai_operator_app/modules/settings/domain/usecases/get_dark_mode_u
 import 'package:ai_operator_app/modules/settings/domain/usecases/set_dark_mode_usecase.dart';
 import 'package:ai_operator_app/shared/ai/ai_functions_definitions_list.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ai_operator_app/core/firebase/app_check_setup.dart';
 import 'package:ai_operator_app/core/storage/app_preferences.dart';
 import 'package:flutter/material.dart';
 import '../../firebase_options.dart';
@@ -24,7 +23,6 @@ class AppInitializer {
 
   static Future<void> initialize() async {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-    await AppCheckSetup.activateAppCheck();
     await AppPreferences.initialize();
     final themeMode = await loadThemeMode();
     appThemeMode.value = themeMode;
@@ -45,6 +43,7 @@ class AppInitializer {
   static Future<void> initializeAI() async {
     aiService = AIServiceFactory.create(
       provider: AIProvider.gemini,
+      apiKey: const String.fromEnvironment('AI_API_KEY'),
       configuration: AIConfiguration(
         functionDefinitions: AIFunctionsDefinitionsList.all,
       ),

@@ -4,7 +4,7 @@ import 'package:ai_operator_app/modules/agent/domain/usecases/send_ai_request_us
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_state.dart';
 import 'package:ai_operator_app/modules/agent/presentation/viewmodel/agent_viewmodel.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_ai_operator/flutter_ai_operator.dart';
+import 'package:flutter_app_copilot/flutter_app_copilot.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 

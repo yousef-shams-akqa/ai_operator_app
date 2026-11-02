@@ -1,4 +1,4 @@
-import 'package:flutter_ai_operator/flutter_ai_operator.dart';
+import 'package:flutter_app_copilot/flutter_app_copilot.dart';
 import 'package:ai_operator_app/core/domain/failures/user_preferences_failure.dart';
 import 'package:ai_operator_app/core/domain/models/dark_mode_output.dart';
 import 'package:ai_operator_app/core/domain/repositories/user_preferences_repository.dart';

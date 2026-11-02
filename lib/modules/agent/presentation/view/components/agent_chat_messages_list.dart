@@ -1,4 +1,4 @@
-import 'package:flutter_ai_operator/flutter_ai_operator.dart';
+import 'package:flutter_app_copilot/flutter_app_copilot.dart';
 import 'package:ai_operator_app/modules/agent/presentation/view/components/agent_chat_message_bubble.dart';
 import 'package:ai_operator_app/shared/constants/app_constants.dart';
 import 'package:ai_operator_app/shared/theme/app_sizes.dart';
