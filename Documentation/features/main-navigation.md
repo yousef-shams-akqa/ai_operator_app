@@ -17,7 +17,7 @@ The app shows a bottom navigation bar with Home, Profile, and Settings tabs. The
 2. `appRouter` declares a `StatefulShellRoute.indexedStack` with three branches: `/`, `/profile`, and `/settings`. Its builder wraps them in `MainShellScaffold`.
 3. `MainShellScaffold` renders a `NavigationBar`. A tap calls `goBranch(index, initialLocation: index == currentIndex)`, so tapping the active tab returns it to its root page.
 4. `/agent` is a top-level `GoRoute` outside the shell. `HomePage` pushes it with `context.push`, which covers the shell and hides the nav bar.
-5. AI navigation (`NavigateUseCase`) uses the same `appRouter`, so `go('/profile')` selects the Profile tab.
+5. AI navigation (`GoRouterNavigationAction` from the `flutter_app_copilot` package, registered in `AppInitializer`) uses the same `appRouter`, so `go('/profile')` selects the Profile tab. Its four tools are added in `AIFunctionsDefinitionsList` with `navigationFunctionDefinitions`.
 
 ## Important Files
 
@@ -37,13 +37,13 @@ The app shows a bottom navigation bar with Home, Profile, and Settings tabs. The
 
 ## Common Changes
 
-- **Add a tab:** add a `StatefulShellBranch` in `app_router.dart`, add a `NavigationDestination` in the same position in `main_shell_scaffold.dart`, add the path to `AppRoutes` and to `AppRoutes.tabs` (in branch order), and add it to `_routePaths` in `AIFunctionsDefinitionsList` so the AI can open it. Then update the navigation tests.
+- **Add a tab:** add a `StatefulShellBranch` in `app_router.dart`, add a `NavigationDestination` in the same position in `main_shell_scaffold.dart`, add the path to `AppRoutes`, and add it to `_routePaths` in `AIFunctionsDefinitionsList` so the AI can open it. Then update the navigation tests.
 - **Make a screen full screen (no nav bar):** declare its `GoRoute` at the top level, outside the `StatefulShellRoute`.
 - **Keep branch order and destination order in sync:** index 0 is Home, 1 is Profile, 2 is Settings.
 
 ## Edge Cases
 
-- **Never push or replace onto a tab:** a tab lives in the shell, and the shell's page key is derived from the route object. Pushing a tab route on top of a page that was itself pushed (for example, the agent opened from Home) puts the shell's key on the stack twice and throws `!keyReservation.contains(key)`. `NavigateUseCase` sends tab targets through `go` for this reason. `go` and `replace` were also checked; `go` is safe, and `replace` from the agent is safe because the agent leaves the stack. Keep this in mind for any new push call.
+- **Never push or replace onto a tab:** a tab lives in the shell, and the shell's page key is derived from the route object. Pushing a tab route on top of a page that was itself pushed (for example, the agent opened from Home) puts the shell's key on the stack twice and throws `!keyReservation.contains(key)`. `GoRouterNavigationAction` handles this: it reads the router configuration and sends any location inside the `StatefulShellRoute` through `go`, so no tab list has to be kept in sync. `go` and `replace` were also checked; `go` is safe, and `replace` from the agent is safe because the agent leaves the stack. Keep this in mind for any new push call.
 - **Profile name stays in sync:** `WatchProfileNameUseCase` exposes `UserPreferencesRepository.watchProfileName()`. `ProfileViewModel` subscribes for the life of the tab.
 - **Dark mode stays in sync:** `WatchDarkModeUseCase` exposes `UserPreferencesRepository.watchDarkModeEnabled()`. `SettingsViewModel` subscribes the same way. `SetDarkModeUseCase` still updates `appThemeMode` when the value is saved.
 - **Agent back behavior:** the agent route sits on the root navigator, so Back returns to the tab that was open.
@@ -52,8 +52,8 @@ The app shows a bottom navigation bar with Home, Profile, and Settings tabs. The
 ## Testing
 
 - Widget tests: `test/core/navigation/main_shell_navigation_test.dart` covers the three tabs, tab switching, the home contents, and router-driven tab selection.
-- Use-case tests: `test/core/domain/usecases/navigate_usecase_test.dart` covers pushing a tab while the agent is open (the crash above) and pushing a normal route. These use a stub router with the same shape, because the real agent page needs Gemini initialized.
-- Run with `flutter test test/core/navigation test/core/domain`.
+- Handler tests: `test/core/action_handler/navigation_actions_test.dart` checks that the navigation tools are registered, that every route the model may open exists in `appRouter`, and that bad arguments come back as a `NavigationFailure`. Navigation behavior itself (including pushing a tab while the agent is open) is tested in the package, in `test/go_router_navigation_action_test.dart`.
+- Run with `flutter test test/core`.
 - Manual check:
   - Switch tabs and confirm each tab keeps its state.
   - Open Agent from Home and confirm there is no nav bar.

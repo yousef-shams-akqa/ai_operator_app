@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 import 'package:flutter_app_copilot/flutter_app_copilot.dart';
-import 'package:ai_operator_app/core/domain/models/navigate_params.dart';
 import 'package:ai_operator_app/core/domain/models/no_params.dart';
-import 'package:ai_operator_app/core/domain/usecases/navigate_usecase.dart';
 import 'package:ai_operator_app/modules/profile/domain/models/set_profile_name_params.dart';
 import 'package:ai_operator_app/modules/profile/domain/usecases/get_profile_name_usecase.dart';
 import 'package:ai_operator_app/modules/profile/domain/usecases/set_profile_name_usecase.dart';
@@ -22,6 +20,13 @@ class AiActionHandlerImpl extends AiActionHandler {
   @override
   Future<Either<Error, String>> handle(FunctionCallResponse response) async {
     if(kDebugMode) debugPrint('[AiActionHandlerImpl] ${DateTime.now().toIso8601String()} handle: FunctionCallResponse(functionName: ${response.functionName}, functionArgs: ${response.functionArgs})');
+    final navigationMethod = NavigationMethod.fromFunctionName(
+      response.functionName,
+    );
+    if (navigationMethod != null) {
+      return _navigate(navigationMethod, response.functionArgs);
+    }
+
     final function = AIFunctionName.tryParse(response.functionName);
     if (function == null) {
       return Left(StateError('Unknown function: ${response.functionName}'));
@@ -47,22 +52,6 @@ class AiActionHandlerImpl extends AiActionHandler {
           _action<SetDarkModeUseCase>(),
           SetDarkModeParams.fromJson(args),
         ),
-        AIFunctionName.navigateGo => _run(
-          _action<NavigateUseCase>(),
-          NavigateParams.fromJson(args),
-        ),
-        AIFunctionName.navigatePush => _run(
-          _action<NavigateUseCase>(),
-          NavigateParams.fromJson(args).copyWith(push: true),
-        ),
-        AIFunctionName.navigateReplace => _run(
-          _action<NavigateUseCase>(),
-          NavigateParams.fromJson(args).copyWith(replace: true),
-        ),
-        AIFunctionName.navigatePop => _run(
-          _action<NavigateUseCase>(),
-          NavigateParams(pop: true),
-        ),
       };
     } catch (error) {
       // Model arguments are untrusted. Report bad ones back so the model can
@@ -74,6 +63,17 @@ class AiActionHandlerImpl extends AiActionHandler {
       }
       rethrow;
     }
+  }
+
+  /// Navigation tools come from the package, so their arguments are parsed by
+  /// [NavigationInput] and they are not part of [AIFunctionName].
+  Future<Either<Error, String>> _navigate(
+    NavigationMethod method,
+    Map<String, dynamic> args,
+  ) async {
+    final input = NavigationInput.fromArgs(method, args);
+    if (input.isLeft) return Left(input.left);
+    return _run(_action<GoRouterNavigationAction>(), input.right);
   }
 
   T _action<T extends AiExecutableAction>() {

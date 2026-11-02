@@ -129,11 +129,10 @@ packages:
   flutter_app_copilot:
     dependency: "direct main"
     description:
-      name: flutter_app_copilot
-      sha256: "2d0e977838f582986d920b3418ae6db69cf482b6a3a44f9fb2f756f7cdd8aacd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.1"
+      path: "../flutter_ai_operator"
+      relative: true
+    source: path
+    version: "0.2.3"
   flutter_bloc:
     dependency: "direct main"
     description:

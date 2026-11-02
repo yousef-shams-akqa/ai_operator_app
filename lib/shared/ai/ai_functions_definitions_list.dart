@@ -14,17 +14,6 @@ abstract final class AIFunctionsDefinitionsList {
     AppRoutes.agent,
   ];
 
-  static const _locationParameterValue = FunctionParameterValue(
-    type: FunctionParameterType.string,
-    description: 'App route path to open.',
-    possibleValues: _routePaths,
-  );
-
-  static const _locationParameter = FunctionParameter(
-    key: 'location',
-    value: _locationParameterValue,
-  );
-
   static final List<FunctionDefinition> all = [
     FunctionDefinition(
       name: AIFunctionName.getProfileName.name,
@@ -44,26 +33,7 @@ abstract final class AIFunctionsDefinitionsList {
       description: 'Turns dark mode on or off.',
       parameters: [SetDarkModeParams.toFunctionParameter()],
     ),
-    FunctionDefinition(
-      name: AIFunctionName.navigateGo.name,
-      description:
-          'Navigates to a route using go (replaces the current route).',
-      parameters: [_locationParameter],
-    ),
-    FunctionDefinition(
-      name: AIFunctionName.navigatePush.name,
-      description: 'Pushes a route onto the navigation stack.',
-      parameters: [_locationParameter],
-    ),
-    FunctionDefinition(
-      name: AIFunctionName.navigateReplace.name,
-      description: 'Replaces the top route on the navigation stack.',
-      parameters: [_locationParameter],
-    ),
-    FunctionDefinition(
-      name: AIFunctionName.navigatePop.name,
-      description: 'Pops the current route off the navigation stack.',
-    ),
+    ...navigationFunctionDefinitions(locations: _routePaths),
   ];
 }
 
@@ -72,11 +42,7 @@ enum AIFunctionName {
   getProfileName,
   setProfileName,
   getDarkMode,
-  setDarkMode,
-  navigateGo,
-  navigatePush,
-  navigateReplace,
-  navigatePop;
+  setDarkMode;
 
   static AIFunctionName? tryParse(String name) {
     for (final function in values) {
@@ -92,9 +58,5 @@ extension AIFunctionNameExtension on AIFunctionName {
         AIFunctionName.setProfileName => 'setProfileName',
         AIFunctionName.getDarkMode => 'getDarkMode',
         AIFunctionName.setDarkMode => 'setDarkMode',
-        AIFunctionName.navigateGo => 'navigateGo',
-        AIFunctionName.navigatePush => 'navigatePush',
-        AIFunctionName.navigateReplace => 'navigateReplace',
-        AIFunctionName.navigatePop => 'navigatePop',
       };
 }

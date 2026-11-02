@@ -40,7 +40,8 @@ dependencies:
   flutter_bloc: ^9.1.1
   either_dart: ^1.0.0
   flutter_markdown_plus: ^1.0.12
-  flutter_app_copilot: ^0.2.1
+  flutter_app_copilot:
+    path: ../flutter_ai_operator
 
 dev_dependencies:
   flutter_test:

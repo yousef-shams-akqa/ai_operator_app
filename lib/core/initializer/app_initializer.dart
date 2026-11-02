@@ -3,7 +3,6 @@ import 'package:flutter_app_copilot/flutter_app_copilot.dart';
 import 'package:ai_operator_app/core/data/repositories/user_preferences_repository_impl.dart';
 import 'package:ai_operator_app/core/domain/repositories/user_preferences_repository.dart';
 import 'package:ai_operator_app/core/domain/models/no_params.dart';
-import 'package:ai_operator_app/core/domain/usecases/navigate_usecase.dart';
 import 'package:ai_operator_app/core/navigation/app_router.dart';
 import 'package:ai_operator_app/modules/profile/domain/usecases/get_profile_name_usecase.dart';
 import 'package:ai_operator_app/modules/profile/domain/usecases/set_profile_name_usecase.dart';
@@ -50,7 +49,7 @@ class AppInitializer {
           SetProfileNameUseCase(userPreferencesRepository),
           GetDarkModeUseCase(userPreferencesRepository),
           SetDarkModeUseCase(userPreferencesRepository),
-          NavigateUseCase(appRouter)
+          GoRouterNavigationAction(appRouter),
         ],
       ),
     );
